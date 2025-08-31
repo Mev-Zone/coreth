@@ -15,9 +15,9 @@ import (
 	"github.com/ava-labs/avalanchego/snow"
 	"github.com/ava-labs/coreth/core"
 	"github.com/ava-labs/coreth/core/txpool"
-	bidTypes "github.com/ava-labs/coreth/core/types"
 	"github.com/ava-labs/coreth/mev"
 	"github.com/ava-labs/coreth/mev/builderclient"
+	types2 "github.com/ava-labs/coreth/mev/types"
 	"github.com/ava-labs/coreth/params"
 	"github.com/ava-labs/coreth/precompile/precompileconfig"
 	"github.com/ava-labs/coreth/rpc"
@@ -25,6 +25,7 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/event"
 	"github.com/ava-labs/libevm/metrics"
+	ethparams "github.com/ava-labs/libevm/params"
 	"github.com/holiman/uint256"
 	"go.uber.org/zap"
 )
@@ -72,10 +73,10 @@ var (
 
 type BidFetcher interface {
 	GetFinalBid(header *types.Header, burn *uint256.Int) *BidRuntime
-	Init(ctx context.Context, backend mev.Backend, config mev.Config, snowCtx *snow.Context, params *bidTypes.HexParams)
+	Init(ctx context.Context, backend mev.Backend, config mev.Config, snowCtx *snow.Context, params *types2.HexParams)
 	ExistBuilder(builder common.Address) bool
 	CheckPending(blockNumber uint64, builder common.Address, bidHash common.Hash) error
-	SendBid(ctx context.Context, bid *bidTypes.Bid) error
+	SendBid(ctx context.Context, bid *types2.Bid) error
 	Builders() map[common.Address]mev.Builder
 }
 
@@ -96,7 +97,7 @@ type simBidReq struct {
 
 // newBidPackage is the warp of a new bid and a feedback channel
 type newBidPackage struct {
-	bid      *bidTypes.Bid
+	bid      *types2.Bid
 	feedback chan error
 }
 
@@ -197,7 +198,7 @@ func (b *bidSimulator) Close() {
 	b.chainHeadSub.Unsubscribe()
 }
 
-func (b *bidSimulator) Init(ctx context.Context, backend mev.Backend, config mev.Config, snowCtx *snow.Context, params *bidTypes.HexParams) {
+func (b *bidSimulator) Init(ctx context.Context, backend mev.Backend, config mev.Config, snowCtx *snow.Context, params *types2.HexParams) {
 	b.snowCtx = snowCtx
 	b.config = &config
 	b.backend = backend
@@ -214,7 +215,7 @@ func (b *bidSimulator) Init(ctx context.Context, backend mev.Backend, config mev
 	go b.newBidLoop()
 }
 
-func (b *bidSimulator) dialBuilders(ctx context.Context, params *bidTypes.HexParams) {
+func (b *bidSimulator) dialBuilders(ctx context.Context, params *types2.HexParams) {
 	for _, v := range b.config.Builders {
 		b.AddBuilder(ctx, v.Address, v.URL, params)
 	}
@@ -235,7 +236,7 @@ func (b *bidSimulator) Builders() map[common.Address]mev.Builder {
 	return cp
 }
 
-func (b *bidSimulator) AddBuilder(ctx context.Context, builder common.Address, url string, params *bidTypes.HexParams) {
+func (b *bidSimulator) AddBuilder(ctx context.Context, builder common.Address, url string, params *types2.HexParams) {
 	b.buildersMu.Lock()
 	defer b.buildersMu.Unlock()
 
@@ -523,7 +524,7 @@ func (b *bidSimulator) clearLoop() {
 
 // SendBid checks if the bid is already exists or if the builder sends too many bids,
 // if yes, return error, if not, add bid into newBid chan waiting for judge profit.
-func (b *bidSimulator) SendBid(_ context.Context, bid *bidTypes.Bid) error {
+func (b *bidSimulator) SendBid(_ context.Context, bid *types2.Bid) error {
 	b.stats.bidReceivedCounter.Inc(1)
 
 	timeout := time.After(time.Second)
@@ -533,14 +534,14 @@ func (b *bidSimulator) SendBid(_ context.Context, bid *bidTypes.Bid) error {
 	case b.newBidCh <- newBidPackage{bid: bid, feedback: replyCh}:
 		b.AddPending(bid.BlockNumber, bid.Builder, bid.Hash())
 	case <-timeout:
-		return bidTypes.ErrMevBusy
+		return types2.ErrMevBusy
 	}
 
 	select {
 	case reply := <-replyCh:
 		return reply
 	case <-timeout:
-		return bidTypes.ErrMevBusy
+		return types2.ErrMevBusy
 	}
 }
 
@@ -629,7 +630,7 @@ func (b *bidSimulator) simBid(interruptCh chan int32, rt *BidRuntime) {
 	gasLimit := rt.env.header.GasLimit
 	if rt.env.gasPool == nil {
 		rt.env.gasPool = new(core.GasPool).AddGas(gasLimit)
-		rt.env.gasPool.SubGas(params.PayBidTxGasLimit) // reserve space like before
+		rt.env.gasPool.SubGas(ethparams.TxGas) // reserve space like before
 	}
 	if rt.bid.GasUsed > rt.env.gasPool.Gas() {
 		b.reportIssue(rt, errors.New("gas used exceeds gas limit"))
@@ -681,7 +682,7 @@ func (b *bidSimulator) simBid(interruptCh chan int32, rt *BidRuntime) {
 	}
 
 	// Burn tx (must succeed)
-	rt.env.gasPool.AddGas(params.PayBidTxGasLimit)
+	rt.env.gasPool.AddGas(ethparams.TxGas)
 	if _, err = commitAndCheck(b.bidWorker, rt.env, burnTx, true); err != nil {
 		b.reportIssue(rt, fmt.Errorf("invalid tx in bid, %v", err))
 		return
@@ -692,7 +693,7 @@ func (b *bidSimulator) simBid(interruptCh chan int32, rt *BidRuntime) {
 	}
 
 	// Pay-bid tx (must succeed)
-	rt.env.gasPool.AddGas(params.PayBidTxGasLimit)
+	rt.env.gasPool.AddGas(ethparams.TxGas)
 	if _, err = commitAndCheck(b.bidWorker, rt.env, payTx, true); err != nil {
 		b.reportIssue(rt, fmt.Errorf("invalid tx in bid, %v", err))
 		return
@@ -821,7 +822,7 @@ func (b *bidSimulator) reportIssue(rt *BidRuntime, err error) {
 	if cli != nil {
 		b.stats.issueReportSent.Inc(1)
 		start := time.Now()
-		repErr := cli.ReportIssue(context.Background(), &bidTypes.BidIssue{
+		repErr := cli.ReportIssue(context.Background(), &types2.BidIssue{
 			Builder: rt.bid.Builder,
 			BidHash: rt.bid.Hash(),
 			Message: err.Error(),
@@ -872,7 +873,7 @@ func (b *bidSimulator) incIssueMetrics(builder common.Address, kind string) {
 }
 
 type BidRuntime struct {
-	bid *bidTypes.Bid
+	bid *types2.Bid
 
 	env *environment
 
@@ -891,7 +892,7 @@ type BidRuntime struct {
 	balanceBeforeBurn   *big.Int
 }
 
-func newBidRuntime(newBid *bidTypes.Bid, validatorCommission uint64) (*BidRuntime, error) {
+func newBidRuntime(newBid *types2.Bid, validatorCommission uint64) (*BidRuntime, error) {
 	// check the block reward and validator reward of the newBid
 	expectedBlockReward := newBid.GasFee
 	expectedValidatorReward := new(big.Int).Sub(newBid.MevRewards, newBid.BurnAmounts)

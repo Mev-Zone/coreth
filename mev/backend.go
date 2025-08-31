@@ -13,10 +13,11 @@ import (
 	"github.com/ava-labs/avalanchego/snow"
 	"github.com/ava-labs/avalanchego/utils/crypto/bls"
 	"github.com/ava-labs/avalanchego/vms/platformvm/warp"
-	"github.com/ava-labs/coreth/core/types"
+	types3 "github.com/ava-labs/coreth/mev/types"
 	"github.com/ava-labs/coreth/params"
 	"github.com/ava-labs/libevm/common"
 	types2 "github.com/ava-labs/libevm/core/types"
+	ethparams "github.com/ava-labs/libevm/params"
 	"go.uber.org/zap"
 )
 
@@ -38,7 +39,7 @@ type Config struct {
 
 type Backend interface {
 	SetBidSimulator(client BidSimulatorClient)
-	MevParams() (*types.HexParams, error)
+	MevParams() (*types3.HexParams, error)
 	FetchBids(ctx context.Context, height int64) errBuilder
 }
 
@@ -47,13 +48,13 @@ type EthereumClient interface {
 }
 
 type Builder interface {
-	Bid(ctx context.Context, result *types.BidArgs, args *types.HexParams) error
+	Bid(ctx context.Context, result *types3.BidArgs, args *types3.HexParams) error
 }
 
 type BidSimulatorClient interface {
 	ExistBuilder(builder common.Address) bool
 	CheckPending(blockNumber uint64, builder common.Address, bidHash common.Hash) error
-	SendBid(ctx context.Context, bid *types.Bid) error
+	SendBid(ctx context.Context, bid *types3.Bid) error
 	Builders() map[common.Address]Builder
 }
 
@@ -85,14 +86,14 @@ func (m *backend) FetchBids(ctx context.Context, height int64) errBuilder {
 		return errBuilder{Err: errors.New("no registered builders")}
 	}
 
-	p := &types.BidParams{Height: height}
+	p := &types3.BidParams{Height: height}
 
 	msg, err := m.sign(p)
 	if err != nil {
 		return errBuilder{Err: err}
 	}
 
-	bidsCh := make(chan types.BidArgs, len(builders))
+	bidsCh := make(chan types3.BidArgs, len(builders))
 	errCh := make(chan errBuilder, len(builders))
 
 	var wg sync.WaitGroup
@@ -108,7 +109,7 @@ func (m *backend) FetchBids(ctx context.Context, height int64) errBuilder {
 			bctx, cancel := context.WithTimeout(ctx, 2*time.Second)
 			defer cancel()
 
-			var result types.BidArgs
+			var result types3.BidArgs
 			if err := b.Bid(bctx, &result, msg); err != nil {
 				errCh <- errBuilder{Err: err, Builder: addr}
 				return
@@ -125,7 +126,7 @@ func (m *backend) FetchBids(ctx context.Context, height int64) errBuilder {
 	}()
 
 	var (
-		bids   []types.BidArgs
+		bids   []types3.BidArgs
 		errors []errBuilder
 	)
 	for bid := range bidsCh {
@@ -174,50 +175,50 @@ func (m *backend) FetchBids(ctx context.Context, height int64) errBuilder {
 // SendBid receives bid from the builders.
 // If mev is not running or bid is invalid, return error.
 // Otherwise, creates a builder bid for the given argument, submit it to the miner.
-func (m *backend) sendBid(ctx context.Context, args types.BidArgs) error {
+func (m *backend) sendBid(ctx context.Context, args types3.BidArgs) error {
 	var (
 		rawBid        = args.RawBid
 		currentHeader = m.b.CurrentHeader()
 	)
 
 	if rawBid == nil {
-		return types.NewInvalidBidError("rawBid should not be nil")
+		return types3.NewInvalidBidError("rawBid should not be nil")
 	}
 
 	// only support bidding for the next block not for the future block
 	if rawBid.BlockNumber != currentHeader.Number.Uint64()+1 {
-		return types.NewInvalidBidError("stale block number or block in future")
+		return types3.NewInvalidBidError("stale block number or block in future")
 	}
 
 	if rawBid.ParentHash != currentHeader.Hash() {
-		return types.NewInvalidBidError(
+		return types3.NewInvalidBidError(
 			fmt.Sprintf("non-aligned parent hash: %v", currentHeader.Hash()))
 	}
 
 	if rawBid.GasFee == nil || rawBid.GasFee.Cmp(common.Big0) == 0 || rawBid.GasUsed == 0 {
-		return types.NewInvalidBidError("empty gasFee or empty gasUsed")
+		return types3.NewInvalidBidError("empty gasFee or empty gasUsed")
 	}
 
 	if len(args.BurnTx) == 0 {
-		return types.NewInvalidPayBidTxError("burnTx are must-have")
+		return types3.NewInvalidPayBidTxError("burnTx are must-have")
 	}
 
 	if len(args.PayBidTx) == 0 || args.PayBidTxGasUsed == 0 {
-		return types.NewInvalidPayBidTxError("payBidTx and payBidTxGasUsed are must-have")
+		return types3.NewInvalidPayBidTxError("payBidTx and payBidTxGasUsed are must-have")
 	}
 
-	if args.PayBidTxGasUsed > params.PayBidTxGasLimit {
-		return types.NewInvalidBidError(
-			fmt.Sprintf("transfer tx gas used must be no more than %v", params.PayBidTxGasLimit))
+	if args.PayBidTxGasUsed > ethparams.TxGas {
+		return types3.NewInvalidBidError(
+			fmt.Sprintf("transfer tx gas used must be no more than %v", ethparams.TxGas))
 	}
 
 	builder, err := args.EcrecoverSender()
 	if err != nil {
-		return types.NewInvalidBidError(fmt.Sprintf("invalid signature:%v", err))
+		return types3.NewInvalidBidError(fmt.Sprintf("invalid signature:%v", err))
 	}
 
 	if !m.bidSimulator.ExistBuilder(builder) {
-		return types.NewInvalidBidError("builder is not registered")
+		return types3.NewInvalidBidError("builder is not registered")
 	}
 
 	err = m.bidSimulator.CheckPending(args.RawBid.BlockNumber, builder, args.RawBid.Hash())
@@ -228,14 +229,14 @@ func (m *backend) sendBid(ctx context.Context, args types.BidArgs) error {
 	signer := types2.MakeSigner(m.chainConfig, big.NewInt(int64(args.RawBid.BlockNumber)), uint64(time.Now().Unix()))
 	bid, err := args.ToBid(builder, signer)
 	if err != nil {
-		return types.NewInvalidBidError(fmt.Sprintf("fail to convert bidArgs to bid, %v", err))
+		return types3.NewInvalidBidError(fmt.Sprintf("fail to convert bidArgs to bid, %v", err))
 	}
 
 	return m.bidSimulator.SendBid(ctx, bid)
 }
 
-func (m *backend) MevParams() (*types.HexParams, error) {
-	p := &types.MevParams{
+func (m *backend) MevParams() (*types3.HexParams, error) {
+	p := &types3.MevParams{
 		ValidatorCommission: m.config.ValidatorCommission,
 		ValidatorWallet:     m.config.ValidatorWallet,
 		Version:             params.Version,
@@ -244,7 +245,7 @@ func (m *backend) MevParams() (*types.HexParams, error) {
 	return m.sign(p)
 }
 
-func (m *backend) sign(data any) (*types.HexParams, error) {
+func (m *backend) sign(data any) (*types3.HexParams, error) {
 	payload, err := json.Marshal(data)
 	if err != nil {
 		return nil, err
@@ -262,7 +263,7 @@ func (m *backend) sign(data any) (*types.HexParams, error) {
 
 	pkBytes := bls.PublicKeyToCompressedBytes(m.ctx.PublicKey)
 
-	return &types.HexParams{
+	return &types3.HexParams{
 		HexMsg:    hex.EncodeToString(msg.Bytes()),
 		Signature: hex.EncodeToString(sign),
 		PublicKey: hex.EncodeToString(pkBytes),

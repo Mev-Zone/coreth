@@ -3,7 +3,7 @@ package builderclient
 import (
 	"context"
 
-	"github.com/ava-labs/coreth/core/types"
+	"github.com/ava-labs/coreth/mev/types"
 	"github.com/ava-labs/coreth/rpc"
 )
 
