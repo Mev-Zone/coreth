@@ -20,9 +20,9 @@ import (
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/plugin/evm/vmtest"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/plugin/evm/vmtest"
 
 	commonEng "github.com/ava-labs/avalanchego/snow/engine/common"
 )

@@ -10,7 +10,7 @@ import (
 
 	"github.com/ava-labs/libevm/core/types"
 
-	"github.com/ava-labs/coreth/ethclient"
+	"github.com/mev-zone/coreth/ethclient"
 
 	ethcrypto "github.com/ava-labs/libevm/crypto"
 )

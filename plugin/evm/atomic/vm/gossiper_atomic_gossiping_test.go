@@ -17,8 +17,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/ava-labs/coreth/plugin/evm/atomic"
-	"github.com/ava-labs/coreth/plugin/evm/vmtest"
+	"github.com/mev-zone/coreth/plugin/evm/atomic"
+	"github.com/mev-zone/coreth/plugin/evm/vmtest"
 
 	commonEng "github.com/ava-labs/avalanchego/snow/engine/common"
 )

@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 
-	"github.com/ava-labs/coreth/rpc"
+	"github.com/mev-zone/coreth/rpc"
 )
 
 func TestBlockChainAPI_stateQueryBlockNumberAllowed(t *testing.T) {

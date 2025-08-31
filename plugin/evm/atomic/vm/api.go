@@ -16,9 +16,9 @@ import (
 	"github.com/ava-labs/avalanchego/vms/components/avax"
 	"github.com/ava-labs/libevm/log"
 
-	"github.com/ava-labs/coreth/plugin/evm/atomic"
-	"github.com/ava-labs/coreth/plugin/evm/atomic/txpool"
-	"github.com/ava-labs/coreth/plugin/evm/client"
+	"github.com/mev-zone/coreth/plugin/evm/atomic"
+	"github.com/mev-zone/coreth/plugin/evm/atomic/txpool"
+	"github.com/mev-zone/coreth/plugin/evm/client"
 )
 
 const (

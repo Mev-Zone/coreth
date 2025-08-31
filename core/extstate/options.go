@@ -6,7 +6,7 @@ package extstate
 import (
 	"github.com/ava-labs/libevm/core/state"
 
-	"github.com/ava-labs/coreth/utils"
+	"github.com/mev-zone/coreth/utils"
 )
 
 type workerPool struct {

@@ -16,12 +16,12 @@ import (
 	snow "github.com/ava-labs/avalanchego/snow"
 	set "github.com/ava-labs/avalanchego/utils/set"
 	predicate "github.com/ava-labs/avalanchego/vms/evm/predicate"
-	precompileconfig "github.com/ava-labs/coreth/precompile/precompileconfig"
 	common "github.com/ava-labs/libevm/common"
 	types "github.com/ava-labs/libevm/core/types"
 	vm "github.com/ava-labs/libevm/core/vm"
 	stateconf "github.com/ava-labs/libevm/libevm/stateconf"
 	uint256 "github.com/holiman/uint256"
+	precompileconfig "github.com/mev-zone/coreth/precompile/precompileconfig"
 	gomock "go.uber.org/mock/gomock"
 )
 

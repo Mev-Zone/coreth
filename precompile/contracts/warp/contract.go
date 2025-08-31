@@ -16,8 +16,8 @@ import (
 
 	_ "embed"
 
-	"github.com/ava-labs/coreth/accounts/abi"
-	"github.com/ava-labs/coreth/precompile/contract"
+	"github.com/mev-zone/coreth/accounts/abi"
+	"github.com/mev-zone/coreth/precompile/contract"
 )
 
 const (

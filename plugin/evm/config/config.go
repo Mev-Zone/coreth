@@ -11,9 +11,9 @@ import (
 
 	"github.com/ava-labs/avalanchego/utils/constants"
 	"github.com/ava-labs/avalanchego/vms/components/gas"
-	"github.com/ava-labs/coreth/mev"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/common/hexutil"
+	"github.com/mev-zone/coreth/mev"
 	"github.com/spf13/cast"
 )
 

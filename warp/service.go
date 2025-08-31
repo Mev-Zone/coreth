@@ -16,8 +16,8 @@ import (
 	"github.com/ava-labs/libevm/common/hexutil"
 	"github.com/ava-labs/libevm/log"
 
-	warpprecompile "github.com/ava-labs/coreth/precompile/contracts/warp"
-	warpValidators "github.com/ava-labs/coreth/warp/validators"
+	warpprecompile "github.com/mev-zone/coreth/precompile/contracts/warp"
+	warpValidators "github.com/mev-zone/coreth/warp/validators"
 )
 
 var errNoValidators = errors.New("cannot aggregate signatures from subnet with no validators")

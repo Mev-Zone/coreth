@@ -12,8 +12,8 @@ import (
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/ava-labs/libevm/log"
 
-	synccommon "github.com/ava-labs/coreth/sync"
-	statesyncclient "github.com/ava-labs/coreth/sync/client"
+	synccommon "github.com/mev-zone/coreth/sync"
+	statesyncclient "github.com/mev-zone/coreth/sync/client"
 )
 
 const blocksPerRequest = 32

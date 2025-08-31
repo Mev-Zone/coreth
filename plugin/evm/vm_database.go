@@ -12,7 +12,7 @@ import (
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/log"
 
-	"github.com/ava-labs/coreth/plugin/evm/database"
+	"github.com/mev-zone/coreth/plugin/evm/database"
 
 	avalanchedatabase "github.com/ava-labs/avalanchego/database"
 )

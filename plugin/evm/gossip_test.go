@@ -19,12 +19,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/consensus/dummy"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/core/txpool"
-	"github.com/ava-labs/coreth/core/txpool/legacypool"
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/utils"
+	"github.com/mev-zone/coreth/consensus/dummy"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/core/txpool"
+	"github.com/mev-zone/coreth/core/txpool/legacypool"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/utils"
 )
 
 func TestGossipEthTxMarshaller(t *testing.T) {

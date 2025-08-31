@@ -22,16 +22,16 @@ import (
 	"github.com/ava-labs/libevm/rlp"
 	"github.com/ava-labs/libevm/trie"
 
-	"github.com/ava-labs/coreth/constants"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/params/extras"
-	"github.com/ava-labs/coreth/plugin/evm/customtypes"
-	"github.com/ava-labs/coreth/plugin/evm/extension"
-	"github.com/ava-labs/coreth/plugin/evm/header"
-	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap0"
-	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap1"
-	"github.com/ava-labs/coreth/precompile/precompileconfig"
+	"github.com/mev-zone/coreth/constants"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/params/extras"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/plugin/evm/extension"
+	"github.com/mev-zone/coreth/plugin/evm/header"
+	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap0"
+	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap1"
+	"github.com/mev-zone/coreth/precompile/precompileconfig"
 )
 
 var (

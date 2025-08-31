@@ -31,9 +31,6 @@ import (
 	"math"
 	"math/big"
 
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/params/extras"
-	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap3"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/core/state"
@@ -42,6 +39,9 @@ import (
 	"github.com/ava-labs/libevm/crypto"
 	ethparams "github.com/ava-labs/libevm/params"
 	"github.com/holiman/uint256"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/params/extras"
+	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap3"
 )
 
 // Config is a basic type specifying certain configuration flags for running

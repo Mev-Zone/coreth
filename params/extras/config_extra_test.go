@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/ava-labs/coreth/utils"
+	"github.com/mev-zone/coreth/utils"
 )
 
 func TestIsTimestampForked(t *testing.T) {

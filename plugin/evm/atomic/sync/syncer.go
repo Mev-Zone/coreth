@@ -15,11 +15,11 @@ import (
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/trie"
 
-	"github.com/ava-labs/coreth/plugin/evm/message"
+	"github.com/mev-zone/coreth/plugin/evm/message"
 
-	atomicstate "github.com/ava-labs/coreth/plugin/evm/atomic/state"
-	synccommon "github.com/ava-labs/coreth/sync"
-	syncclient "github.com/ava-labs/coreth/sync/client"
+	atomicstate "github.com/mev-zone/coreth/plugin/evm/atomic/state"
+	synccommon "github.com/mev-zone/coreth/sync"
+	syncclient "github.com/mev-zone/coreth/sync/client"
 )
 
 const (

@@ -16,15 +16,15 @@ import (
 
 	// Force import core to register the VM hooks.
 	// This allows testing the precompiles by exercising the EVM.
-	_ "github.com/ava-labs/coreth/core"
+	_ "github.com/mev-zone/coreth/core"
 
-	"github.com/ava-labs/coreth/core/extstate"
-	"github.com/ava-labs/coreth/params"
+	"github.com/mev-zone/coreth/core/extstate"
+	"github.com/mev-zone/coreth/params"
 
 	ethtypes "github.com/ava-labs/libevm/core/types"
 	ethparams "github.com/ava-labs/libevm/params"
 
-	. "github.com/ava-labs/coreth/nativeasset"
+	. "github.com/mev-zone/coreth/nativeasset"
 )
 
 // CanTransfer checks whether there are enough funds in the address' account to make a transfer.

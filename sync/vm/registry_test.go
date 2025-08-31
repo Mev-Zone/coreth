@@ -13,8 +13,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/sync/synctest"
-	"github.com/ava-labs/coreth/utils/utilstest"
+	"github.com/mev-zone/coreth/sync/synctest"
+	"github.com/mev-zone/coreth/utils/utilstest"
 )
 
 // mockSyncer implements synccommon.Syncer for testing.

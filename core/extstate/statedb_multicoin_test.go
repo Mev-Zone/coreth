@@ -16,8 +16,8 @@ import (
 	"github.com/holiman/uint256"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/core/state/snapshot"
-	"github.com/ava-labs/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/core/state/snapshot"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
 )
 
 func TestMultiCoinOperations(t *testing.T) {

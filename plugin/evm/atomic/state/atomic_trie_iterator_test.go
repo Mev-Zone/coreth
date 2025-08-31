@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/plugin/evm/atomic/atomictest"
+	"github.com/mev-zone/coreth/plugin/evm/atomic/atomictest"
 
 	avalancheatomic "github.com/ava-labs/avalanchego/chains/atomic"
 )

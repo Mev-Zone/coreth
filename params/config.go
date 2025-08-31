@@ -30,9 +30,9 @@ package params
 import (
 	"math/big"
 
-	"github.com/ava-labs/coreth/params/extras"
-	"github.com/ava-labs/coreth/utils"
 	ethparams "github.com/ava-labs/libevm/params"
+	"github.com/mev-zone/coreth/params/extras"
+	"github.com/mev-zone/coreth/utils"
 )
 
 // Avalanche ChainIDs

@@ -3,8 +3,8 @@ package builderclient
 import (
 	"context"
 
-	"github.com/ava-labs/coreth/mev/types"
-	"github.com/ava-labs/coreth/rpc"
+	"github.com/mev-zone/coreth/mev/types"
+	"github.com/mev-zone/coreth/rpc"
 )
 
 // Client defines typed wrappers for the Ethereum RPC API.
