@@ -33,6 +33,16 @@ import (
 	"math/big"
 	"time"
 
+	"github.com/ava-labs/coreth/consensus"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/core/bloombits"
+	"github.com/ava-labs/coreth/core/txpool"
+	"github.com/ava-labs/coreth/eth/gasprice"
+	"github.com/ava-labs/coreth/eth/tracers"
+	"github.com/ava-labs/coreth/internal/ethapi"
+	"github.com/ava-labs/coreth/params"
+	customheader "github.com/ava-labs/coreth/plugin/evm/header"
+	"github.com/ava-labs/coreth/rpc"
 	"github.com/ava-labs/libevm/accounts"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/state"
@@ -40,16 +50,6 @@ import (
 	"github.com/ava-labs/libevm/core/vm"
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/ava-labs/libevm/event"
-	"github.com/mev-zone/coreth-validator/consensus"
-	"github.com/mev-zone/coreth-validator/core"
-	"github.com/mev-zone/coreth-validator/core/bloombits"
-	"github.com/mev-zone/coreth-validator/core/txpool"
-	"github.com/mev-zone/coreth-validator/eth/gasprice"
-	"github.com/mev-zone/coreth-validator/eth/tracers"
-	"github.com/mev-zone/coreth-validator/internal/ethapi"
-	"github.com/mev-zone/coreth-validator/params"
-	customheader "github.com/mev-zone/coreth-validator/plugin/evm/header"
-	"github.com/mev-zone/coreth-validator/rpc"
 )
 
 var ErrUnfinalizedData = errors.New("cannot query unfinalized data")

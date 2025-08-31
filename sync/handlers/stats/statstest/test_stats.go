@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mev-zone/coreth-validator/sync/handlers/stats"
+	"github.com/ava-labs/coreth/sync/handlers/stats"
 )
 
 var _ stats.HandlerStats = (*TestHandlerStats)(nil)

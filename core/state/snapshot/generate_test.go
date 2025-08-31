@@ -33,6 +33,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ava-labs/coreth/triedb/hashdb"
+	"github.com/ava-labs/coreth/triedb/pathdb"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/core/types"
@@ -43,8 +45,6 @@ import (
 	"github.com/ava-labs/libevm/trie/trienode"
 	"github.com/ava-labs/libevm/triedb"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth-validator/triedb/hashdb"
-	"github.com/mev-zone/coreth-validator/triedb/pathdb"
 	"golang.org/x/crypto/sha3"
 )
 

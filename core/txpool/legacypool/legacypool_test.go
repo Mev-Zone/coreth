@@ -40,6 +40,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/core/txpool"
+	"github.com/ava-labs/coreth/params"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/core/state"
@@ -48,9 +51,6 @@ import (
 	"github.com/ava-labs/libevm/event"
 	"github.com/ava-labs/libevm/trie"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth-validator/core"
-	"github.com/mev-zone/coreth-validator/core/txpool"
-	"github.com/mev-zone/coreth-validator/params"
 )
 
 var (

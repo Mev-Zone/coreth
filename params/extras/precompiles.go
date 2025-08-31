@@ -6,8 +6,8 @@ package extras
 import (
 	"encoding/json"
 
-	"github.com/mev-zone/coreth-validator/precompile/modules"
-	"github.com/mev-zone/coreth-validator/precompile/precompileconfig"
+	"github.com/ava-labs/coreth/precompile/modules"
+	"github.com/ava-labs/coreth/precompile/precompileconfig"
 )
 
 type Precompiles map[string]precompileconfig.Config

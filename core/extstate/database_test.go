@@ -10,6 +10,8 @@ import (
 	"slices"
 	"testing"
 
+	"github.com/ava-labs/coreth/triedb/firewood"
+	"github.com/ava-labs/coreth/triedb/hashdb"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/core/state"
@@ -19,8 +21,6 @@ import (
 	"github.com/ava-labs/libevm/trie/trienode"
 	"github.com/ava-labs/libevm/triedb"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth-validator/triedb/firewood"
-	"github.com/mev-zone/coreth-validator/triedb/hashdb"
 	"github.com/stretchr/testify/require"
 )
 

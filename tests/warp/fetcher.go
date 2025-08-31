@@ -11,7 +11,7 @@ import (
 	"github.com/ava-labs/avalanchego/utils/crypto/bls"
 	avalancheWarp "github.com/ava-labs/avalanchego/vms/platformvm/warp"
 	"github.com/ava-labs/avalanchego/vms/platformvm/warp/payload"
-	warpBackend "github.com/mev-zone/coreth-validator/warp"
+	warpBackend "github.com/ava-labs/coreth/warp"
 )
 
 type apiFetcher struct {

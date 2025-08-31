@@ -13,10 +13,10 @@ import (
 	"github.com/ava-labs/avalanchego/snow"
 	"github.com/ava-labs/avalanchego/utils/crypto/bls"
 	"github.com/ava-labs/avalanchego/vms/platformvm/warp"
+	"github.com/ava-labs/coreth/core/types"
+	"github.com/ava-labs/coreth/params"
 	"github.com/ava-labs/libevm/common"
 	types2 "github.com/ava-labs/libevm/core/types"
-	"github.com/mev-zone/coreth-validator/core/types"
-	"github.com/mev-zone/coreth-validator/params"
 	"go.uber.org/zap"
 )
 

@@ -34,6 +34,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/ava-labs/coreth/core/extstate"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/core/state"
@@ -42,7 +43,6 @@ import (
 	"github.com/ava-labs/libevm/triedb"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth-validator/core/extstate"
 	"golang.org/x/exp/slices"
 )
 

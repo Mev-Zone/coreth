@@ -6,7 +6,7 @@ package extras
 import (
 	"testing"
 
-	"github.com/mev-zone/coreth-validator/utils"
+	"github.com/ava-labs/coreth/utils"
 	"github.com/stretchr/testify/assert"
 )
 

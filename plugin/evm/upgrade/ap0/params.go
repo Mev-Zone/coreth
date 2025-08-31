@@ -6,7 +6,7 @@ package ap0
 
 import (
 	"github.com/ava-labs/avalanchego/utils/units"
-	"github.com/mev-zone/coreth-validator/utils"
+	"github.com/ava-labs/coreth/utils"
 )
 
 const (

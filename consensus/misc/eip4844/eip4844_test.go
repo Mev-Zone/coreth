@@ -24,7 +24,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/mev-zone/coreth-validator/params"
+	"github.com/ava-labs/coreth/params"
 )
 
 func TestCalcExcessBlobGas(t *testing.T) {

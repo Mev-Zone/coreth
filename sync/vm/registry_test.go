@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	synccommon "github.com/mev-zone/coreth-validator/sync"
+	synccommon "github.com/ava-labs/coreth/sync"
 	"github.com/stretchr/testify/require"
 )
 

@@ -7,7 +7,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/mev-zone/coreth-validator/plugin/evm/message"
+	"github.com/ava-labs/coreth/plugin/evm/message"
 )
 
 var (

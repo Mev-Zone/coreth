@@ -14,7 +14,7 @@ import (
 	reflect "reflect"
 
 	snow "github.com/ava-labs/avalanchego/snow"
-	precompileconfig "github.com/mev-zone/coreth-validator/precompile/precompileconfig"
+	precompileconfig "github.com/ava-labs/coreth/precompile/precompileconfig"
 	common "github.com/ava-labs/libevm/common"
 	types "github.com/ava-labs/libevm/core/types"
 	vm "github.com/ava-labs/libevm/core/vm"

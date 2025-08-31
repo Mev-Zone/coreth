@@ -9,16 +9,16 @@ import (
 
 	"github.com/ava-labs/avalanchego/ids"
 	"github.com/ava-labs/avalanchego/snow/snowtest"
+	"github.com/ava-labs/coreth/core"
+	bidTypes "github.com/ava-labs/coreth/core/types"
+	"github.com/ava-labs/coreth/mev"
+	"github.com/ava-labs/coreth/mev/builderclient"
+	"github.com/ava-labs/coreth/params"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/ava-labs/libevm/event"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth-validator/core"
-	bidTypes "github.com/mev-zone/coreth-validator/core/types"
-	"github.com/mev-zone/coreth-validator/mev"
-	"github.com/mev-zone/coreth-validator/mev/builderclient"
-	"github.com/mev-zone/coreth-validator/params"
 	"github.com/stretchr/testify/require"
 )
 
