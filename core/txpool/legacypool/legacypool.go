@@ -37,6 +37,11 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/core/txpool"
+	"github.com/ava-labs/coreth/params"
+	"github.com/ava-labs/coreth/plugin/evm/customheader"
+	"github.com/ava-labs/coreth/utils"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/common/prque"
 	"github.com/ava-labs/libevm/core/state"
@@ -45,11 +50,6 @@ import (
 	"github.com/ava-labs/libevm/log"
 	"github.com/ava-labs/libevm/metrics"
 	"github.com/holiman/uint256"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/core/txpool"
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/plugin/evm/header"
-	"github.com/ava-labs/coreth/utils"
 
 	// Force libevm metrics of the same name to be registered first.
 	_ "github.com/ava-labs/libevm/core/txpool/legacypool"
@@ -1830,7 +1830,7 @@ func (pool *LegacyPool) updateBaseFee() {
 // assumes lock is already held
 func (pool *LegacyPool) updateBaseFeeAt(head *types.Header) error {
 	config := params.GetExtra(pool.chainconfig)
-	baseFeeEstimate, err := header.EstimateNextBaseFee(config, head, uint64(time.Now().Unix()))
+	baseFeeEstimate, err := customheader.EstimateNextBaseFee(config, head, uint64(time.Now().UnixMilli()))
 	if err != nil {
 		return err
 	}

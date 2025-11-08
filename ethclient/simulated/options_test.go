@@ -33,11 +33,11 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/ava-labs/avalanchego/vms/evm/acp176"
+	"github.com/ava-labs/coreth/core"
 	ethereum "github.com/ava-labs/libevm"
 	"github.com/ava-labs/libevm/core/types"
 	ethparams "github.com/ava-labs/libevm/params"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/plugin/evm/upgrade/acp176"
 )
 
 // Tests that the simulator starts with the initial gas limit in the genesis block,

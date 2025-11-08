@@ -15,18 +15,18 @@ import (
 	reflect "reflect"
 	time "time"
 
+	consensus "github.com/ava-labs/coreth/consensus"
+	core "github.com/ava-labs/coreth/core"
+	params "github.com/ava-labs/coreth/params"
+	rpc "github.com/ava-labs/coreth/rpc"
 	accounts "github.com/ava-labs/libevm/accounts"
 	common "github.com/ava-labs/libevm/common"
+	bloombits "github.com/ava-labs/libevm/core/bloombits"
 	state "github.com/ava-labs/libevm/core/state"
 	types "github.com/ava-labs/libevm/core/types"
 	vm "github.com/ava-labs/libevm/core/vm"
 	ethdb "github.com/ava-labs/libevm/ethdb"
 	event "github.com/ava-labs/libevm/event"
-	consensus "github.com/ava-labs/coreth/consensus"
-	core "github.com/ava-labs/coreth/core"
-	bloombits "github.com/ava-labs/coreth/core/bloombits"
-	params "github.com/ava-labs/coreth/params"
-	rpc "github.com/ava-labs/coreth/rpc"
 	gomock "go.uber.org/mock/gomock"
 )
 
