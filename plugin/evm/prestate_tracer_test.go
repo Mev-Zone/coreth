@@ -18,9 +18,9 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/core/vm"
 
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/eth/tracers"
-	"github.com/mev-zone/coreth/tests"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/eth/tracers"
+	"github.com/ava-labs/coreth/tests"
 )
 
 func TestPrestateWithDiffModeANTTracer(t *testing.T) {

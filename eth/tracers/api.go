@@ -47,11 +47,11 @@ import (
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/ava-labs/libevm/log"
 	"github.com/ava-labs/libevm/rlp"
-	"github.com/mev-zone/coreth/consensus"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/internal/ethapi"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/consensus"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/internal/ethapi"
+	"github.com/ava-labs/coreth/params"
+	"github.com/ava-labs/coreth/rpc"
 )
 
 const (

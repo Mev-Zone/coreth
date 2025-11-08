@@ -41,8 +41,8 @@ import (
 	"github.com/ava-labs/libevm/common/hexutil"
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/event"
-	"github.com/mev-zone/coreth/internal/ethapi"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/internal/ethapi"
+	"github.com/ava-labs/coreth/rpc"
 )
 
 var (

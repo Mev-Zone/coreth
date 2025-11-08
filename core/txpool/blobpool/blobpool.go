@@ -51,10 +51,10 @@ import (
 	"github.com/ava-labs/libevm/rlp"
 	"github.com/holiman/billy"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/core/txpool"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/plugin/evm/header"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/core/txpool"
+	"github.com/ava-labs/coreth/params"
+	"github.com/ava-labs/coreth/plugin/evm/header"
 )
 
 const (

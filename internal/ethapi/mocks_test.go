@@ -22,11 +22,11 @@ import (
 	vm "github.com/ava-labs/libevm/core/vm"
 	ethdb "github.com/ava-labs/libevm/ethdb"
 	event "github.com/ava-labs/libevm/event"
-	consensus "github.com/mev-zone/coreth/consensus"
-	core "github.com/mev-zone/coreth/core"
-	bloombits "github.com/mev-zone/coreth/core/bloombits"
-	params "github.com/mev-zone/coreth/params"
-	rpc "github.com/mev-zone/coreth/rpc"
+	consensus "github.com/ava-labs/coreth/consensus"
+	core "github.com/ava-labs/coreth/core"
+	bloombits "github.com/ava-labs/coreth/core/bloombits"
+	params "github.com/ava-labs/coreth/params"
+	rpc "github.com/ava-labs/coreth/rpc"
 	gomock "go.uber.org/mock/gomock"
 )
 

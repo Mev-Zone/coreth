@@ -31,7 +31,7 @@ import (
 	"fmt"
 
 	"github.com/ava-labs/libevm/common"
-	"github.com/mev-zone/coreth/core/vm/runtime"
+	"github.com/ava-labs/coreth/core/vm/runtime"
 )
 
 func ExampleExecute() {

@@ -29,7 +29,7 @@ package runtime
 
 import (
 	"github.com/ava-labs/libevm/core/vm"
-	"github.com/mev-zone/coreth/core"
+	"github.com/ava-labs/coreth/core"
 )
 
 func NewEnv(cfg *Config) *vm.EVM {

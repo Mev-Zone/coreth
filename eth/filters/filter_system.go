@@ -41,10 +41,10 @@ import (
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/ava-labs/libevm/event"
 	"github.com/ava-labs/libevm/log"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/core/bloombits"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/core/bloombits"
+	"github.com/ava-labs/coreth/params"
+	"github.com/ava-labs/coreth/rpc"
 )
 
 // Config represents the configuration of the filter system.

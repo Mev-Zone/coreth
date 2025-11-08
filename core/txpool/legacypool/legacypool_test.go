@@ -48,9 +48,9 @@ import (
 	"github.com/ava-labs/libevm/event"
 	"github.com/ava-labs/libevm/trie"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/core/txpool"
-	"github.com/mev-zone/coreth/params"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/core/txpool"
+	"github.com/ava-labs/coreth/params"
 )
 
 var (

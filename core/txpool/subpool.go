@@ -35,7 +35,7 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/event"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth/core"
+	"github.com/ava-labs/coreth/core"
 )
 
 // LazyTransaction contains a small subset of the transaction properties that is

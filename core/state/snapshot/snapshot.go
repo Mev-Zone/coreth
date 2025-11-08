@@ -43,7 +43,7 @@ import (
 	"github.com/ava-labs/libevm/log"
 	"github.com/ava-labs/libevm/metrics"
 	"github.com/ava-labs/libevm/triedb"
-	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
+	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
 )
 
 const (

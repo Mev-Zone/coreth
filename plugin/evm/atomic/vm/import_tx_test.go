@@ -21,11 +21,11 @@ import (
 	"github.com/holiman/uint256"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mev-zone/coreth/core/extstate"
-	"github.com/mev-zone/coreth/plugin/evm/atomic"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap0"
-	"github.com/mev-zone/coreth/plugin/evm/vmtest"
-	"github.com/mev-zone/coreth/utils"
+	"github.com/ava-labs/coreth/core/extstate"
+	"github.com/ava-labs/coreth/plugin/evm/atomic"
+	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap0"
+	"github.com/ava-labs/coreth/plugin/evm/vmtest"
+	"github.com/ava-labs/coreth/utils"
 
 	avalancheatomic "github.com/ava-labs/avalanchego/chains/atomic"
 	commonEng "github.com/ava-labs/avalanchego/snow/engine/common"

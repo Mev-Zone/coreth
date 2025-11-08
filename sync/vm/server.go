@@ -11,9 +11,9 @@ import (
 	"github.com/ava-labs/avalanchego/snow/engine/snowman/block"
 	"github.com/ava-labs/libevm/log"
 
-	"github.com/mev-zone/coreth/core"
+	"github.com/ava-labs/coreth/core"
 
-	synccommon "github.com/mev-zone/coreth/sync"
+	synccommon "github.com/ava-labs/coreth/sync"
 )
 
 var errProviderNotSet = errors.New("provider not set")

@@ -9,9 +9,9 @@ import (
 
 	"go.uber.org/mock/gomock"
 
-	"github.com/mev-zone/coreth/precompile/precompileconfig"
-	"github.com/mev-zone/coreth/precompile/precompiletest"
-	"github.com/mev-zone/coreth/utils"
+	"github.com/ava-labs/coreth/precompile/precompileconfig"
+	"github.com/ava-labs/coreth/precompile/precompiletest"
+	"github.com/ava-labs/coreth/utils"
 )
 
 func TestVerify(t *testing.T) {

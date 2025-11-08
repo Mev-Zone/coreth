@@ -11,10 +11,10 @@ import (
 	"github.com/ava-labs/avalanchego/vms/components/gas"
 	"github.com/ava-labs/libevm/core/types"
 
-	"github.com/mev-zone/coreth/params/extras"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/acp176"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap0"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap3"
+	"github.com/ava-labs/coreth/params/extras"
+	"github.com/ava-labs/coreth/plugin/evm/upgrade/acp176"
+	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap0"
+	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap3"
 )
 
 var (

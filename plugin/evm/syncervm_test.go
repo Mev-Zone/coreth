@@ -11,10 +11,10 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mev-zone/coreth/consensus/dummy"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/plugin/evm/extension"
-	"github.com/mev-zone/coreth/plugin/evm/vmtest"
+	"github.com/ava-labs/coreth/consensus/dummy"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/plugin/evm/extension"
+	"github.com/ava-labs/coreth/plugin/evm/vmtest"
 
 	ethparams "github.com/ava-labs/libevm/params"
 )

@@ -12,8 +12,8 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/log"
 
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/precompile/precompileconfig"
+	"github.com/ava-labs/coreth/params"
+	"github.com/ava-labs/coreth/precompile/precompileconfig"
 )
 
 var ErrMissingPredicateContext = errors.New("missing predicate context")

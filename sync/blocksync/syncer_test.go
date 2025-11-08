@@ -16,15 +16,15 @@ import (
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mev-zone/coreth/consensus/dummy"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/plugin/evm/message"
-	"github.com/mev-zone/coreth/sync/handlers"
+	"github.com/ava-labs/coreth/consensus/dummy"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/params"
+	"github.com/ava-labs/coreth/plugin/evm/message"
+	"github.com/ava-labs/coreth/sync/handlers"
 
 	ethparams "github.com/ava-labs/libevm/params"
-	syncclient "github.com/mev-zone/coreth/sync/client"
-	handlerstats "github.com/mev-zone/coreth/sync/handlers/stats"
+	syncclient "github.com/ava-labs/coreth/sync/client"
+	handlerstats "github.com/ava-labs/coreth/sync/handlers/stats"
 )
 
 func TestBlockSyncer_ParameterizedTests(t *testing.T) {

@@ -12,8 +12,8 @@ import (
 	"github.com/ava-labs/libevm/common/hexutil"
 	"github.com/ava-labs/libevm/rlp"
 
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/rpc"
 )
 
 type DetailedExecutionResult struct {

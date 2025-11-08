@@ -8,9 +8,9 @@ import (
 
 	"github.com/ava-labs/libevm/common"
 
-	"github.com/mev-zone/coreth/params/extras"
-	"github.com/mev-zone/coreth/precompile/modules"
-	"github.com/mev-zone/coreth/precompile/precompileconfig"
+	"github.com/ava-labs/coreth/params/extras"
+	"github.com/ava-labs/coreth/precompile/modules"
+	"github.com/ava-labs/coreth/precompile/precompileconfig"
 
 	ethparams "github.com/ava-labs/libevm/params"
 )

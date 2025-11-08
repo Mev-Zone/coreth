@@ -38,11 +38,11 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/event"
 	"github.com/ava-labs/libevm/log"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/params"
-	customheader "github.com/mev-zone/coreth/plugin/evm/header"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/acp176"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/params"
+	customheader "github.com/ava-labs/coreth/plugin/evm/header"
+	"github.com/ava-labs/coreth/plugin/evm/upgrade/acp176"
+	"github.com/ava-labs/coreth/rpc"
 	"golang.org/x/exp/slices"
 )
 

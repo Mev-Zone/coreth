@@ -28,10 +28,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/mev-zone/coreth/plugin/evm/config"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap0"
-	"github.com/mev-zone/coreth/plugin/evm/vmtest"
-	"github.com/mev-zone/coreth/utils"
+	"github.com/ava-labs/coreth/plugin/evm/config"
+	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap0"
+	"github.com/ava-labs/coreth/plugin/evm/vmtest"
+	"github.com/ava-labs/coreth/utils"
 
 	agoUtils "github.com/ava-labs/avalanchego/utils"
 )

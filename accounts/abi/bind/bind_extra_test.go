@@ -13,13 +13,13 @@ import (
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mev-zone/coreth/accounts/abi"
-	"github.com/mev-zone/coreth/accounts/abi/bind"
-	"github.com/mev-zone/coreth/accounts/abi/bind/backends"
-	"github.com/mev-zone/coreth/eth/ethconfig"
-	"github.com/mev-zone/coreth/ethclient/simulated"
-	"github.com/mev-zone/coreth/node"
-	"github.com/mev-zone/coreth/params"
+	"github.com/ava-labs/coreth/accounts/abi"
+	"github.com/ava-labs/coreth/accounts/abi/bind"
+	"github.com/ava-labs/coreth/accounts/abi/bind/backends"
+	"github.com/ava-labs/coreth/eth/ethconfig"
+	"github.com/ava-labs/coreth/ethclient/simulated"
+	"github.com/ava-labs/coreth/node"
+	"github.com/ava-labs/coreth/params"
 )
 
 // TestGetSenderNativeAssetCall checks that the NativeAssetCall proxies the

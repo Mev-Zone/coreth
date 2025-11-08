@@ -19,7 +19,7 @@ import (
 	"github.com/holiman/uint256"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mev-zone/coreth/utils/utilstest"
+	"github.com/ava-labs/coreth/utils/utilstest"
 )
 
 // GenerateTrie creates a trie with [numKeys] key-value pairs inside of [trieDB].

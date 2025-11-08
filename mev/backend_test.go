@@ -18,8 +18,8 @@ import (
 	types2 "github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/ava-labs/libevm/rlp"
-	"github.com/mev-zone/coreth/mev/types"
-	"github.com/mev-zone/coreth/params"
+	"github.com/ava-labs/coreth/mev/types"
+	"github.com/ava-labs/coreth/params"
 	"github.com/stretchr/testify/require"
 )
 

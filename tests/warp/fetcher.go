@@ -12,7 +12,7 @@ import (
 	"github.com/ava-labs/avalanchego/vms/platformvm/warp/payload"
 
 	avalancheWarp "github.com/ava-labs/avalanchego/vms/platformvm/warp"
-	warpBackend "github.com/mev-zone/coreth/warp"
+	warpBackend "github.com/ava-labs/coreth/warp"
 )
 
 type apiFetcher struct {

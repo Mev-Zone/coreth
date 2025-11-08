@@ -19,10 +19,10 @@ import (
 	"github.com/ava-labs/libevm/triedb"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mev-zone/coreth/core/state/snapshot"
-	"github.com/mev-zone/coreth/plugin/evm/message"
-	"github.com/mev-zone/coreth/sync/handlers/stats/statstest"
-	"github.com/mev-zone/coreth/sync/statesync/statesynctest"
+	"github.com/ava-labs/coreth/core/state/snapshot"
+	"github.com/ava-labs/coreth/plugin/evm/message"
+	"github.com/ava-labs/coreth/sync/handlers/stats/statstest"
+	"github.com/ava-labs/coreth/sync/statesync/statesynctest"
 )
 
 func TestLeafsRequestHandler_OnLeafsRequest(t *testing.T) {

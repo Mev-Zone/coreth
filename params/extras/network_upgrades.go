@@ -10,7 +10,7 @@ import (
 
 	"github.com/ava-labs/avalanchego/upgrade"
 
-	"github.com/mev-zone/coreth/utils"
+	"github.com/ava-labs/coreth/utils"
 
 	ethparams "github.com/ava-labs/libevm/params"
 )

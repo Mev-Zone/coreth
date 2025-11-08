@@ -46,8 +46,8 @@ import (
 	"github.com/ava-labs/libevm/rlp"
 	"github.com/ava-labs/libevm/trie"
 	"github.com/ava-labs/libevm/triedb"
-	"github.com/mev-zone/coreth/core/state/snapshot"
-	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
+	"github.com/ava-labs/coreth/core/state/snapshot"
+	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
 )
 
 const (

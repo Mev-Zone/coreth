@@ -43,7 +43,7 @@ import (
 	"github.com/ava-labs/libevm/trie/triestate"
 	"github.com/ava-labs/libevm/triedb"
 	"github.com/ava-labs/libevm/triedb/database"
-	"github.com/mev-zone/coreth/params"
+	"github.com/ava-labs/coreth/params"
 )
 
 const (

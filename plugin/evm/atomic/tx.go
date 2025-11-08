@@ -24,7 +24,7 @@ import (
 	"github.com/ava-labs/libevm/common"
 	"github.com/holiman/uint256"
 
-	"github.com/mev-zone/coreth/params/extras"
+	"github.com/ava-labs/coreth/params/extras"
 )
 
 var _ gossip.Gossipable = (*Tx)(nil)

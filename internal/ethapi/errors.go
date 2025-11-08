@@ -32,7 +32,7 @@ import (
 
 	"github.com/ava-labs/libevm/common/hexutil"
 	"github.com/ava-labs/libevm/core/vm"
-	"github.com/mev-zone/coreth/accounts/abi"
+	"github.com/ava-labs/coreth/accounts/abi"
 )
 
 // revertError is an API error that encompasses an EVM revert with JSON error

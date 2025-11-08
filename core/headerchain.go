@@ -34,8 +34,8 @@ import (
 	mrand "math/rand"
 	"sync/atomic"
 
-	"github.com/mev-zone/coreth/consensus"
-	"github.com/mev-zone/coreth/params"
+	"github.com/ava-labs/coreth/consensus"
+	"github.com/ava-labs/coreth/params"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/common/lru"
 	"github.com/ava-labs/libevm/core/rawdb"

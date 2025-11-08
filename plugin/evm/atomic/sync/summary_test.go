@@ -13,7 +13,7 @@ import (
 	"github.com/ava-labs/libevm/common"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mev-zone/coreth/plugin/evm/message"
+	"github.com/ava-labs/coreth/plugin/evm/message"
 )
 
 func TestMarshalSummary(t *testing.T) {

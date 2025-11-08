@@ -41,12 +41,12 @@ import (
 	"github.com/ava-labs/libevm/core/vm"
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/ava-labs/libevm/triedb"
-	"github.com/mev-zone/coreth/accounts/abi"
-	"github.com/mev-zone/coreth/consensus/dummy"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/accounts/abi"
+	"github.com/ava-labs/coreth/consensus/dummy"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/params"
+	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
+	"github.com/ava-labs/coreth/rpc"
 	"github.com/stretchr/testify/require"
 )
 

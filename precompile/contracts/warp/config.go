@@ -15,9 +15,9 @@ import (
 	"github.com/ava-labs/libevm/common/math"
 	"github.com/ava-labs/libevm/log"
 
-	"github.com/mev-zone/coreth/precompile/precompileconfig"
+	"github.com/ava-labs/coreth/precompile/precompileconfig"
 
-	warpValidators "github.com/mev-zone/coreth/warp/validators"
+	warpValidators "github.com/ava-labs/coreth/warp/validators"
 )
 
 const (

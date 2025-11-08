@@ -40,9 +40,9 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/ava-labs/libevm/event"
-	"github.com/mev-zone/coreth/accounts/abi"
-	"github.com/mev-zone/coreth/nativeasset"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/accounts/abi"
+	"github.com/ava-labs/coreth/nativeasset"
+	"github.com/ava-labs/coreth/rpc"
 )
 
 const basefeeWiggleMultiplier = 2

@@ -17,11 +17,11 @@ import (
 	"github.com/ava-labs/libevm/log"
 	"github.com/ava-labs/libevm/trie"
 
-	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
-	"github.com/mev-zone/coreth/plugin/evm/message"
-	"github.com/mev-zone/coreth/utils"
+	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
+	"github.com/ava-labs/coreth/plugin/evm/message"
+	"github.com/ava-labs/coreth/utils"
 
-	syncclient "github.com/mev-zone/coreth/sync/client"
+	syncclient "github.com/ava-labs/coreth/sync/client"
 )
 
 var (

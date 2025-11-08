@@ -39,8 +39,8 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/crypto"
 	ethparams "github.com/ava-labs/libevm/params"
-	"github.com/mev-zone/coreth/accounts/abi/bind"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/accounts/abi/bind"
+	"github.com/ava-labs/coreth/rpc"
 	"github.com/stretchr/testify/require"
 )
 

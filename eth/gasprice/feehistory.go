@@ -37,7 +37,7 @@ import (
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/log"
-	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/coreth/rpc"
 )
 
 var (

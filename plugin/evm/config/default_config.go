@@ -8,7 +8,7 @@ import (
 
 	"github.com/ava-labs/libevm/common"
 
-	"github.com/mev-zone/coreth/utils"
+	"github.com/ava-labs/coreth/utils"
 )
 
 const defaultCommitInterval = 4096

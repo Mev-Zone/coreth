@@ -43,8 +43,8 @@ import (
 	"github.com/ava-labs/libevm/trie/trienode"
 	"github.com/ava-labs/libevm/triedb"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth/triedb/hashdb"
-	"github.com/mev-zone/coreth/triedb/pathdb"
+	"github.com/ava-labs/coreth/triedb/hashdb"
+	"github.com/ava-labs/coreth/triedb/pathdb"
 	"golang.org/x/crypto/sha3"
 )
 

@@ -41,7 +41,7 @@ import (
 	"unicode"
 
 	"github.com/ava-labs/libevm/log"
-	"github.com/mev-zone/coreth/accounts/abi"
+	"github.com/ava-labs/coreth/accounts/abi"
 )
 
 // Lang is a target programming language selector to generate bindings for.

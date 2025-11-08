@@ -25,7 +25,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mev-zone/coreth/plugin/evm/message"
+	"github.com/ava-labs/coreth/plugin/evm/message"
 )
 
 const (

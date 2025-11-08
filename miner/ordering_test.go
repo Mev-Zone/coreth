@@ -38,7 +38,7 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth/core/txpool"
+	"github.com/ava-labs/coreth/core/txpool"
 )
 
 func TestTransactionPriceNonceSortLegacy(t *testing.T) {

@@ -12,7 +12,7 @@ import (
 	"github.com/ava-labs/avalanchego/utils/set"
 	"github.com/ava-labs/libevm/log"
 
-	"github.com/mev-zone/coreth/precompile/contracts/warp"
+	"github.com/ava-labs/coreth/precompile/contracts/warp"
 
 	avalancheWarp "github.com/ava-labs/avalanchego/vms/platformvm/warp"
 )

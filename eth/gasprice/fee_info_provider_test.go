@@ -13,8 +13,8 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/params"
+	"github.com/ava-labs/coreth/core"
+	"github.com/ava-labs/coreth/params"
 )
 
 func TestFeeInfoProvider(t *testing.T) {

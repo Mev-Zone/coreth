@@ -38,13 +38,13 @@ import (
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/ava-labs/libevm/rlp"
-	"github.com/mev-zone/coreth/internal/blocktest"
-	"github.com/mev-zone/coreth/params"
+	"github.com/ava-labs/coreth/internal/blocktest"
+	"github.com/ava-labs/coreth/params"
 
 	// This test file has to be in package types_test to avoid a circular
 	// dependency when importing `params`. We dot-import the package to mimic
 	// regular same-package behaviour.
-	. "github.com/mev-zone/coreth/plugin/evm/customtypes"
+	. "github.com/ava-labs/coreth/plugin/evm/customtypes"
 )
 
 // This test has been modified from https://github.com/ethereum/go-ethereum/blob/v1.9.21/core/types/block_test.go#L35 to fit

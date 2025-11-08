@@ -7,7 +7,7 @@ import (
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/ethdb"
 
-	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
+	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
 )
 
 // trieQueue persists storage trie roots with their associated

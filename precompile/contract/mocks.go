@@ -21,7 +21,7 @@ import (
 	vm "github.com/ava-labs/libevm/core/vm"
 	stateconf "github.com/ava-labs/libevm/libevm/stateconf"
 	uint256 "github.com/holiman/uint256"
-	precompileconfig "github.com/mev-zone/coreth/precompile/precompileconfig"
+	precompileconfig "github.com/ava-labs/coreth/precompile/precompileconfig"
 	gomock "go.uber.org/mock/gomock"
 )
 

@@ -19,9 +19,9 @@ import (
 	"github.com/ava-labs/libevm/trie/trienode"
 	"github.com/ava-labs/libevm/triedb"
 
-	"github.com/mev-zone/coreth/plugin/evm/atomic"
-	"github.com/mev-zone/coreth/plugin/evm/database"
-	"github.com/mev-zone/coreth/triedb/hashdb"
+	"github.com/ava-labs/coreth/plugin/evm/atomic"
+	"github.com/ava-labs/coreth/plugin/evm/database"
+	"github.com/ava-labs/coreth/triedb/hashdb"
 
 	avalancheatomic "github.com/ava-labs/avalanchego/chains/atomic"
 	avalanchedatabase "github.com/ava-labs/avalanchego/database"

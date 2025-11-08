@@ -5,7 +5,7 @@ package paramstest
 import (
 	"github.com/ava-labs/avalanchego/upgrade/upgradetest"
 
-	"github.com/mev-zone/coreth/params"
+	"github.com/ava-labs/coreth/params"
 )
 
 var ForkToChainConfig = map[upgradetest.Fork]*params.ChainConfig{

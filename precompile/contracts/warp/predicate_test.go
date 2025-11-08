@@ -24,9 +24,9 @@ import (
 	"github.com/ava-labs/libevm/common"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mev-zone/coreth/precompile/precompileconfig"
-	"github.com/mev-zone/coreth/precompile/precompiletest"
-	"github.com/mev-zone/coreth/utils"
+	"github.com/ava-labs/coreth/precompile/precompileconfig"
+	"github.com/ava-labs/coreth/precompile/precompiletest"
+	"github.com/ava-labs/coreth/utils"
 
 	agoUtils "github.com/ava-labs/avalanchego/utils"
 	avalancheWarp "github.com/ava-labs/avalanchego/vms/platformvm/warp"
