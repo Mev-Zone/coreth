@@ -11,10 +11,10 @@ import (
 	"github.com/ava-labs/libevm/core/state"
 	"github.com/ava-labs/libevm/log"
 
-	"github.com/ava-labs/coreth/core/extstate"
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/precompile/contract"
-	"github.com/ava-labs/coreth/precompile/modules"
+	"github.com/mev-zone/coreth/core/extstate"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/precompile/contract"
+	"github.com/mev-zone/coreth/precompile/modules"
 )
 
 // ApplyPrecompileActivations checks if any of the precompiles specified by the chain config are enabled or disabled by the block

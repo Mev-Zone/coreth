@@ -16,8 +16,8 @@ import (
 	"github.com/ava-labs/libevm/common"
 	types2 "github.com/ava-labs/libevm/core/types"
 	ethparams "github.com/ava-labs/libevm/params"
-	types3 "github.com/ava-labs/coreth/mev/types"
-	"github.com/ava-labs/coreth/params"
+	types3 "github.com/mev-zone/coreth/mev/types"
+	"github.com/mev-zone/coreth/params"
 	"go.uber.org/zap"
 )
 

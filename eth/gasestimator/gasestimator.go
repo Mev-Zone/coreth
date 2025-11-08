@@ -40,8 +40,8 @@ import (
 	"github.com/ava-labs/libevm/core/vm"
 	"github.com/ava-labs/libevm/log"
 	ethparams "github.com/ava-labs/libevm/params"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/params"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/params"
 )
 
 // Options are the contextual parameters to execute the requested call.

@@ -16,10 +16,10 @@ import (
 	"github.com/ava-labs/libevm/params"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/plugin/evm"
-	"github.com/ava-labs/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/plugin/evm"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
 
-	cparams "github.com/ava-labs/coreth/params"
+	cparams "github.com/mev-zone/coreth/params"
 )
 
 func TestWithTempRegisteredLibEVMExtras(t *testing.T) {

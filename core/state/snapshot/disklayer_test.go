@@ -35,7 +35,7 @@ import (
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/ethdb/memorydb"
 	"github.com/ava-labs/libevm/rlp"
-	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
+	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
 )
 
 // reverse reverses the contents of a byte slice. It's used to update random accs

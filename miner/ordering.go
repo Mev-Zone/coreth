@@ -34,7 +34,7 @@ import (
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/holiman/uint256"
-	"github.com/ava-labs/coreth/core/txpool"
+	"github.com/mev-zone/coreth/core/txpool"
 )
 
 // txWithMinerFee wraps a transaction with its gas price or effective miner gasTipCap

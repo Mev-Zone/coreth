@@ -39,7 +39,7 @@ import (
 	"github.com/ava-labs/libevm/event"
 	"github.com/ava-labs/libevm/log"
 	"github.com/ava-labs/libevm/metrics"
-	"github.com/ava-labs/coreth/core"
+	"github.com/mev-zone/coreth/core"
 )
 
 var (

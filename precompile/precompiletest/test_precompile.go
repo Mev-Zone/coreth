@@ -16,11 +16,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
-	"github.com/ava-labs/coreth/core/extstate"
-	"github.com/ava-labs/coreth/params/extras"
-	"github.com/ava-labs/coreth/precompile/contract"
-	"github.com/ava-labs/coreth/precompile/modules"
-	"github.com/ava-labs/coreth/precompile/precompileconfig"
+	"github.com/mev-zone/coreth/core/extstate"
+	"github.com/mev-zone/coreth/params/extras"
+	"github.com/mev-zone/coreth/precompile/contract"
+	"github.com/mev-zone/coreth/precompile/modules"
+	"github.com/mev-zone/coreth/precompile/precompileconfig"
 )
 
 // PrecompileTest is a test case for a precompile

@@ -35,7 +35,7 @@ import (
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/ava-labs/libevm/log"
-	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
+	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
 )
 
 // WipeSnapshot starts a goroutine to iterate over the entire key-value database

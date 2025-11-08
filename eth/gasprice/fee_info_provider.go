@@ -33,8 +33,8 @@ import (
 
 	"github.com/ava-labs/libevm/core/types"
 	lru "github.com/hashicorp/golang-lru"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/rpc"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/rpc"
 )
 
 // additional slots in the header cache to allow processing queries

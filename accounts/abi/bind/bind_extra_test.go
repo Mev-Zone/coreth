@@ -14,15 +14,15 @@ import (
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/accounts/abi"
-	"github.com/ava-labs/coreth/accounts/abi/bind"
-	"github.com/ava-labs/coreth/accounts/abi/bind/backends"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/eth/ethconfig"
-	"github.com/ava-labs/coreth/ethclient/simulated"
-	"github.com/ava-labs/coreth/node"
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/accounts/abi"
+	"github.com/mev-zone/coreth/accounts/abi/bind"
+	"github.com/mev-zone/coreth/accounts/abi/bind/backends"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/eth/ethconfig"
+	"github.com/mev-zone/coreth/ethclient/simulated"
+	"github.com/mev-zone/coreth/node"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
 )
 
 func TestMain(m *testing.M) {

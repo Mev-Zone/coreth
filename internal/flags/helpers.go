@@ -34,8 +34,8 @@ import (
 	"strings"
 
 	"github.com/mattn/go-isatty"
-	"github.com/ava-labs/coreth/internal/version"
-	"github.com/ava-labs/coreth/params"
+	"github.com/mev-zone/coreth/internal/version"
+	"github.com/mev-zone/coreth/params"
 	"github.com/urfave/cli/v2"
 )
 

@@ -17,15 +17,14 @@ import (
 	"github.com/ava-labs/libevm/libevm"
 	"github.com/ava-labs/libevm/libevm/legacy"
 
-	"github.com/ava-labs/coreth/nativeasset"
-	"github.com/ava-labs/coreth/params/extras"
-	"github.com/ava-labs/coreth/plugin/evm/customheader"
-	"github.com/ava-labs/coreth/precompile/contract"
-	"github.com/ava-labs/coreth/precompile/modules"
-	"github.com/ava-labs/coreth/precompile/precompileconfig"
+	"github.com/mev-zone/coreth/nativeasset"
+	"github.com/mev-zone/coreth/params/extras"
+	"github.com/mev-zone/coreth/plugin/evm/customheader"
+	"github.com/mev-zone/coreth/precompile/contract"
+	"github.com/mev-zone/coreth/precompile/modules"
+	"github.com/mev-zone/coreth/precompile/precompileconfig"
 
 	ethparams "github.com/ava-labs/libevm/params"
-	customheader "github.com/ava-labs/coreth/plugin/evm/header"
 )
 
 // invalidateDelegateTime is the Unix timestamp for August 2nd, 2025, midnight Eastern Time

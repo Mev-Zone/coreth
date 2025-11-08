@@ -10,8 +10,8 @@ import (
 
 	"github.com/ava-labs/libevm/common"
 
-	"github.com/ava-labs/coreth/constants"
-	"github.com/ava-labs/coreth/utils"
+	"github.com/mev-zone/coreth/constants"
+	"github.com/mev-zone/coreth/utils"
 )
 
 var (

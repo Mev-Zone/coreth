@@ -6,7 +6,7 @@ package extras
 import (
 	"github.com/ava-labs/libevm/common"
 
-	"github.com/ava-labs/coreth/precompile/precompileconfig"
+	"github.com/mev-zone/coreth/precompile/precompileconfig"
 )
 
 type Rules struct {

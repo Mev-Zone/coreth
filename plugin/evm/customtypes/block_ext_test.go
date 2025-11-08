@@ -18,8 +18,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/utils"
-	"github.com/ava-labs/coreth/utils/utilstest"
+	"github.com/mev-zone/coreth/utils"
+	"github.com/mev-zone/coreth/utils/utilstest"
 )
 
 func TestCopyHeader(t *testing.T) {

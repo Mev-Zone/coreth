@@ -17,7 +17,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/goleak"
 
-	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
+	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
 )
 
 func TestCodeQueue(t *testing.T) {

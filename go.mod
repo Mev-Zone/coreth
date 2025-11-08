@@ -1,4 +1,4 @@
-module github.com/ava-labs/coreth
+module github.com/mev-zone/coreth
 
 // CLI tools intended for invocation with `go tool` should be added to
 // tools/go.mod to avoid polluting the main module's dependencies. See

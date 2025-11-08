@@ -42,9 +42,9 @@ import (
 	"github.com/ava-labs/libevm/log"
 	"github.com/ava-labs/libevm/rlp"
 	"github.com/ava-labs/libevm/trie"
-	"github.com/ava-labs/coreth/internal/ethapi"
-	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
-	"github.com/ava-labs/coreth/rpc"
+	"github.com/mev-zone/coreth/internal/ethapi"
+	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
+	"github.com/mev-zone/coreth/rpc"
 )
 
 var errFirewoodNotSupported = errors.New("firewood triedb scheme does not yet support this operation")

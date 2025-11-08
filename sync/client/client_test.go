@@ -19,17 +19,17 @@ import (
 	"github.com/ava-labs/libevm/triedb"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/consensus/dummy"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/plugin/evm/customtypes"
-	"github.com/ava-labs/coreth/plugin/evm/message"
-	"github.com/ava-labs/coreth/sync/handlers"
-	"github.com/ava-labs/coreth/sync/statesync/statesynctest"
+	"github.com/mev-zone/coreth/consensus/dummy"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/plugin/evm/message"
+	"github.com/mev-zone/coreth/sync/handlers"
+	"github.com/mev-zone/coreth/sync/statesync/statesynctest"
 
 	ethparams "github.com/ava-labs/libevm/params"
-	clientstats "github.com/ava-labs/coreth/sync/client/stats"
-	handlerstats "github.com/ava-labs/coreth/sync/handlers/stats"
+	clientstats "github.com/mev-zone/coreth/sync/client/stats"
+	handlerstats "github.com/mev-zone/coreth/sync/handlers/stats"
 )
 
 func TestMain(m *testing.M) {

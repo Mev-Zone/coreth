@@ -39,29 +39,29 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ava-labs/coreth/consensus/dummy"
-	"github.com/ava-labs/coreth/constants"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/eth"
-	"github.com/ava-labs/coreth/miner"
-	"github.com/ava-labs/coreth/node"
-	"github.com/ava-labs/coreth/params"
-	"github.com/ava-labs/coreth/params/paramstest"
-	"github.com/ava-labs/coreth/plugin/evm/customheader"
-	"github.com/ava-labs/coreth/plugin/evm/customrawdb"
-	"github.com/ava-labs/coreth/plugin/evm/customtypes"
-	"github.com/ava-labs/coreth/plugin/evm/extension"
-	"github.com/ava-labs/coreth/plugin/evm/message"
-	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap0"
-	"github.com/ava-labs/coreth/plugin/evm/upgrade/ap1"
-	"github.com/ava-labs/coreth/plugin/evm/vmtest"
-	"github.com/ava-labs/coreth/rpc"
-	"github.com/ava-labs/coreth/utils"
-	"github.com/ava-labs/coreth/utils/utilstest"
+	"github.com/mev-zone/coreth/consensus/dummy"
+	"github.com/mev-zone/coreth/constants"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/eth"
+	"github.com/mev-zone/coreth/miner"
+	"github.com/mev-zone/coreth/node"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/params/paramstest"
+	"github.com/mev-zone/coreth/plugin/evm/customheader"
+	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/plugin/evm/extension"
+	"github.com/mev-zone/coreth/plugin/evm/message"
+	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap0"
+	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap1"
+	"github.com/mev-zone/coreth/plugin/evm/vmtest"
+	"github.com/mev-zone/coreth/rpc"
+	"github.com/mev-zone/coreth/utils"
+	"github.com/mev-zone/coreth/utils/utilstest"
 
 	commonEng "github.com/ava-labs/avalanchego/snow/engine/common"
 	avalancheWarp "github.com/ava-labs/avalanchego/vms/platformvm/warp"
-	warpcontract "github.com/ava-labs/coreth/precompile/contracts/warp"
+	warpcontract "github.com/mev-zone/coreth/precompile/contracts/warp"
 	ethparams "github.com/ava-labs/libevm/params"
 )
 
@@ -1603,7 +1603,7 @@ func TestWaitForEvent(t *testing.T) {
 				wg.Wait()
 			},
 		},
-		// TODO (ceyonur): remove this test after Granite is activated. (See https://github.com/ava-labs/coreth/issues/1318)
+		// TODO (ceyonur): remove this test after Granite is activated. (See https://github.com/mev-zone/coreth/issues/1318)
 		{
 			name: "WaitForEvent does not wait for new block to be built in fortuna",
 			Fork: &fortunaFork,
@@ -1632,7 +1632,7 @@ func TestWaitForEvent(t *testing.T) {
 				wg.Wait()
 			},
 		},
-		// TODO (ceyonur): remove this test after Granite is activated. (See https://github.com/ava-labs/coreth/issues/1318)
+		// TODO (ceyonur): remove this test after Granite is activated. (See https://github.com/mev-zone/coreth/issues/1318)
 		{
 			name: "WaitForEvent waits for a delay with a retry in fortuna",
 			Fork: &fortunaFork,

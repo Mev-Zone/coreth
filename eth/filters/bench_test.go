@@ -39,7 +39,6 @@ import (
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/ethdb"
-	"github.com/ava-labs/coreth/core/bloombits"
 )
 
 func BenchmarkBloomBits512(b *testing.B) {

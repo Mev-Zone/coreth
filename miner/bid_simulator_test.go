@@ -14,11 +14,11 @@ import (
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/ava-labs/libevm/event"
 	"github.com/holiman/uint256"
-	"github.com/ava-labs/coreth/core"
-	"github.com/ava-labs/coreth/mev"
-	"github.com/ava-labs/coreth/mev/builderclient"
-	bidTypes "github.com/ava-labs/coreth/mev/types"
-	"github.com/ava-labs/coreth/params"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/mev"
+	"github.com/mev-zone/coreth/mev/builderclient"
+	bidTypes "github.com/mev-zone/coreth/mev/types"
+	"github.com/mev-zone/coreth/params"
 	"github.com/stretchr/testify/require"
 )
 

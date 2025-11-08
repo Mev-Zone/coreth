@@ -40,7 +40,7 @@ import (
 	"github.com/ava-labs/libevm/log"
 	"github.com/mattn/go-colorable"
 	"github.com/mattn/go-isatty"
-	"github.com/ava-labs/coreth/internal/flags"
+	"github.com/mev-zone/coreth/internal/flags"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/exp/slog"
 	"gopkg.in/natefinch/lumberjack.v2"

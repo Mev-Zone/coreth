@@ -38,7 +38,7 @@ import (
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/ava-labs/libevm/rlp"
 	"github.com/ava-labs/libevm/triedb"
-	"github.com/ava-labs/coreth/utils"
+	"github.com/mev-zone/coreth/utils"
 )
 
 // diskLayer is a low level persistent snapshot built on top of a key-value store.
