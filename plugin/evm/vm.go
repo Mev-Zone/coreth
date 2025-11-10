@@ -1080,12 +1080,15 @@ func (vm *VM) CreateHandlers(ctx context.Context) (map[string]http.Handler, erro
 	}
 
 	if vm.config.MevAPIEnabled {
-		mevBackend := mev.NewBackend(
+		mevBackend, err := mev.NewBackend(
 			vm.ctx,
 			vm.config.Mev,
 			vm.eth.APIBackend,
 			vm.eth.BlockChain().Config(),
 		)
+		if err != nil {
+			return nil, err
+		}
 		bf := vm.eth.Miner().BidFetcher()
 		if p, err := mevBackend.MevParams(); err != nil {
 			return nil, err

@@ -200,6 +200,12 @@ func TestShouldSimulate_PreemptSimulatingIfBetter(t *testing.T) {
 	should, ref := b.shouldSimulate(newRt)
 	require.True(t, should)
 	require.Equal(t, sim, ref)
+
+	// New is not strictly better (expectedBlockReward)
+	newRt = rt(10, 0, 0, parent, 1)
+	should, ref = b.shouldSimulate(newRt)
+	require.False(t, should)
+	require.Equal(t, sim, ref)
 }
 
 func TestShouldSimulate_DontPreemptIfNotBetter(t *testing.T) {
@@ -296,13 +302,14 @@ func TestGetFinalBid_ShouldReturnNil(t *testing.T) {
 	b := newBareSimulator()
 	snowCtx := snowtest.Context(t, cChainID)
 
-	mevBackend := mev.NewBackend(snowCtx, config, &mockEth{
+	mevBackend, errB := mev.NewBackend(snowCtx, config, &mockEth{
 		H: &types.Header{
 			Number: big.NewInt(100),
 		},
 	}, &params.ChainConfig{
 		ChainID: chainID,
 	})
+	require.NoError(t, errB)
 	mevBackend.SetBidSimulator(b)
 
 	mevP, err := mevBackend.MevParams()
@@ -327,13 +334,14 @@ func TestGetFinalBid_ShouldReturnBid(t *testing.T) {
 	b := newBareSimulator()
 	snowCtx := snowtest.Context(t, cChainID)
 
-	mevBackend := mev.NewBackend(snowCtx, config, &mockEth{
+	mevBackend, errB := mev.NewBackend(snowCtx, config, &mockEth{
 		H: &types.Header{
 			Number: big.NewInt(100),
 		},
 	}, &params.ChainConfig{
 		ChainID: chainID,
 	})
+	require.NoError(t, errB)
 	mevBackend.SetBidSimulator(b)
 
 	mevP, err := mevBackend.MevParams()

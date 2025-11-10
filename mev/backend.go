@@ -71,13 +71,19 @@ func NewBackend(
 	config Config,
 	eth EthereumClient,
 	chainConfig *params.ChainConfig,
-) Backend {
+) (Backend, error) {
+	if config.ValidatorCommission < 0 || config.ValidatorCommission > 10_000 {
+		return nil, fmt.Errorf(
+			"invalid validator commission: got %d, want in range [0, 10000]",
+			config.ValidatorCommission,
+		)
+	}
 	return &backend{
 		ctx:         ctx,
 		config:      config,
 		b:           eth,
 		chainConfig: chainConfig,
-	}
+	}, nil
 }
 
 func (m *backend) FetchBids(ctx context.Context, height int64) errBuilder {
@@ -195,8 +201,20 @@ func (m *backend) sendBid(ctx context.Context, args types3.BidArgs) error {
 			fmt.Sprintf("non-aligned parent hash: %v", currentHeader.Hash()))
 	}
 
-	if rawBid.GasFee == nil || rawBid.GasFee.Cmp(common.Big0) == 0 || rawBid.GasUsed == 0 {
+	if rawBid.GasFee == nil || rawBid.GasFee.Sign() <= 0 || rawBid.GasUsed == 0 {
 		return types3.NewInvalidBidError("empty gasFee or empty gasUsed")
+	}
+
+	if rawBid.MevRewards == nil || rawBid.MevRewards.Sign() <= 0 {
+		return types3.NewInvalidBidError("empty mevRewards")
+	}
+
+	if rawBid.MevValidatorShare == nil || rawBid.MevValidatorShare.Sign() <= 0 {
+		return types3.NewInvalidBidError("empty mevValidatorShare")
+	}
+
+	if rawBid.MevBurnShare == nil || rawBid.MevBurnShare.Sign() <= 0 {
+		return types3.NewInvalidBidError("empty mevBurnShare")
 	}
 
 	if len(args.BurnTx) == 0 {

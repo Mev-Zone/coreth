@@ -717,7 +717,7 @@ func (b *bidSimulator) simBid(interruptCh chan int32, rt *BidRuntime) {
 
 func (b *bidSimulator) tryPublishBest(parent common.Hash, rt *BidRuntime) (won bool) {
 	best := b.GetBestBid(parent)
-	if best == nil || rt.packedBlockReward.Cmp(best.packedBlockReward) >= 0 {
+	if best == nil || rt.packedBlockReward.Cmp(best.packedBlockReward) > 0 {
 		b.SetBestBid(parent, rt)
 		return true
 	}
@@ -894,16 +894,15 @@ type BidRuntime struct {
 
 func newBidRuntime(newBid *types2.Bid, validatorCommission uint64) (*BidRuntime, error) {
 	// check the block reward and validator reward of the newBid
+	expectedBurnShare := newBid.BurnAmounts
 	expectedBlockReward := newBid.GasFee
-	expectedValidatorReward := new(big.Int).Sub(newBid.MevRewards, newBid.BurnAmounts)
+	expectedValidatorReward := new(big.Int).Sub(newBid.MevRewards, expectedBurnShare)
 	expectedValidatorReward.Mul(expectedValidatorReward, big.NewInt(int64(validatorCommission)))
 	expectedValidatorReward.Div(expectedValidatorReward, big.NewInt(10000))
 
 	if expectedValidatorReward.Cmp(newBid.ValidatorRewards) < 0 {
-		return nil, fmt.Errorf("validator reward is less than promised, value: %s, commissionConfig: %d", expectedValidatorReward, newBid.ValidatorRewards)
+		return nil, fmt.Errorf("validator reward is less than promised, value: %s, promised: %s", expectedValidatorReward, newBid.ValidatorRewards)
 	}
-
-	expectedBurnShare := newBid.BurnAmounts
 
 	if expectedValidatorReward.Cmp(big.NewInt(0)) < 0 {
 		return nil, fmt.Errorf("validator reward is less than 0, value: %s, commissionConfig: %d", expectedValidatorReward, validatorCommission)
@@ -936,7 +935,7 @@ func (r *BidRuntime) validBurnShare() bool {
 }
 
 func (r *BidRuntime) isExpectedBetterThan(other *BidRuntime) bool {
-	return r.expectedBlockReward.Cmp(other.expectedBlockReward) >= 0
+	return r.expectedBlockReward.Cmp(other.expectedBlockReward) > 0
 }
 
 // packReward calculates packedBlockReward

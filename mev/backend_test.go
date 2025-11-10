@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"math/big"
 	"testing"
 
@@ -72,7 +73,7 @@ func TestBackend_MevParams(t *testing.T) {
 
 	snowCtx := snowtest.Context(t, cChainID)
 
-	mevBackend := NewBackend(
+	mevBackend, errB := NewBackend(
 		snowCtx,
 		config,
 		nil,
@@ -80,6 +81,7 @@ func TestBackend_MevParams(t *testing.T) {
 			ChainID: chainID,
 		},
 	)
+	require.NoError(t, errB)
 
 	p, err := mevBackend.MevParams()
 	require.NoError(t, err)
@@ -109,12 +111,13 @@ func TestBackend_FetchBids(t *testing.T) {
 		},
 	}
 
-	mevBackend := NewBackend(
+	mevBackend, errB := NewBackend(
 		snowCtx,
 		config,
 		eth,
 		&params.ChainConfig{ChainID: chainID},
 	)
+	require.NoError(t, errB)
 
 	tx := types2.NewTx(&types2.LegacyTx{
 		Nonce:    1,
@@ -131,11 +134,14 @@ func TestBackend_FetchBids(t *testing.T) {
 
 	okBid := types.BidArgs{
 		RawBid: &types.RawBid{
-			BlockNumber: eth.H.Number.Uint64() + 1,
-			ParentHash:  eth.H.Hash(),
-			GasFee:      big.NewInt(1),
-			GasUsed:     21000,
-			Txs:         make([]hexutil.Bytes, 0),
+			BlockNumber:       eth.H.Number.Uint64() + 1,
+			ParentHash:        eth.H.Hash(),
+			GasFee:            big.NewInt(1),
+			GasUsed:           21000,
+			Txs:               make([]hexutil.Bytes, 0),
+			MevRewards:        big.NewInt(1),
+			MevValidatorShare: big.NewInt(1),
+			MevBurnShare:      big.NewInt(1),
 		},
 		BurnTx:          txBytes,
 		PayBidTx:        txBytes,
@@ -171,12 +177,40 @@ func TestBackend_FetchBids(t *testing.T) {
 	}
 	mevBackend.SetBidSimulator(mockBS)
 
-	errB := mevBackend.FetchBids(ctx, 12345)
-	require.EqualError(t, errB.Err, "no bid found with this height")
-	require.Equal(t, builderAddr, errB.Builder)
+	errF := mevBackend.FetchBids(ctx, 12345)
+	require.EqualError(t, errF.Err, "no bid found with this height")
+	require.Equal(t, builderAddr, errF.Builder)
 
-	errB = mevBackend.FetchBids(ctx, eth.H.Number.Int64()+1)
-	require.NoError(t, errB.Err)
+	errF = mevBackend.FetchBids(ctx, eth.H.Number.Int64()+1)
+	require.NoError(t, errF.Err)
+}
+
+func TestBackend_InvalidCommission(t *testing.T) {
+	t.Parallel()
+
+	snowCtx := snowtest.Context(t, cChainID)
+
+	eth := &mockEth{
+		H: &types2.Header{
+			Number: big.NewInt(100),
+		},
+	}
+
+	c := Config{
+		Builders: []BuilderConfig{
+			{Address: builderAddr},
+		},
+		ValidatorCommission: 10001,
+		ValidatorWallet:     common.Address{},
+	}
+
+	_, errB := NewBackend(
+		snowCtx,
+		c,
+		eth,
+		&params.ChainConfig{ChainID: chainID},
+	)
+	require.EqualError(t, errB, fmt.Sprintf("invalid validator commission: got %d, want in range [0, 10000]", c.ValidatorCommission))
 }
 
 func verifyHexParams(t *testing.T, snowCtx *snow.Context, p *types.HexParams) *avalancheWarp.UnsignedMessage {
