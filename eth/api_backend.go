@@ -33,23 +33,22 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/ava-labs/libevm/accounts"
-	"github.com/ava-labs/libevm/common"
-	"github.com/ava-labs/libevm/core/state"
-	"github.com/ava-labs/libevm/core/types"
-	"github.com/ava-labs/libevm/core/vm"
-	"github.com/ava-labs/libevm/ethdb"
-	"github.com/ava-labs/libevm/event"
 	"github.com/mev-zone/coreth/consensus"
 	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/core/bloombits"
 	"github.com/mev-zone/coreth/core/txpool"
 	"github.com/mev-zone/coreth/eth/gasprice"
 	"github.com/mev-zone/coreth/eth/tracers"
 	"github.com/mev-zone/coreth/internal/ethapi"
 	"github.com/mev-zone/coreth/params"
-	customheader "github.com/mev-zone/coreth/plugin/evm/header"
 	"github.com/mev-zone/coreth/rpc"
+	"github.com/ava-labs/libevm/accounts"
+	"github.com/ava-labs/libevm/common"
+	"github.com/ava-labs/libevm/core/bloombits"
+	"github.com/ava-labs/libevm/core/state"
+	"github.com/ava-labs/libevm/core/types"
+	"github.com/ava-labs/libevm/core/vm"
+	"github.com/ava-labs/libevm/ethdb"
+	"github.com/ava-labs/libevm/event"
 )
 
 var ErrUnfinalizedData = errors.New("cannot query unfinalized data")
@@ -525,11 +524,6 @@ func (b *EthAPIBackend) StateAtNextBlock(ctx context.Context, parent, nextBlock 
 
 func (b *EthAPIBackend) StateAtTransaction(ctx context.Context, block *types.Block, txIndex int, reexec uint64) (*core.Message, vm.BlockContext, *state.StateDB, tracers.StateReleaseFunc, error) {
 	return b.eth.stateAtTransaction(ctx, block, txIndex, reexec)
-}
-
-func (b *EthAPIBackend) MinRequiredTip(ctx context.Context, header *types.Header) (*big.Int, error) {
-	config := params.GetExtra(b.ChainConfig())
-	return customheader.EstimateRequiredTip(config, header)
 }
 
 func (b *EthAPIBackend) isLatestAndAllowed(number rpc.BlockNumber) bool {

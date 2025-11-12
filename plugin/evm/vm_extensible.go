@@ -16,8 +16,7 @@ import (
 	"github.com/mev-zone/coreth/params"
 	"github.com/mev-zone/coreth/plugin/evm/config"
 	"github.com/mev-zone/coreth/plugin/evm/extension"
-
-	vmsync "github.com/mev-zone/coreth/sync/vm"
+	"github.com/mev-zone/coreth/plugin/evm/vmsync"
 )
 
 var _ extension.InnerVM = (*VM)(nil)

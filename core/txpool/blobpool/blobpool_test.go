@@ -40,6 +40,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/core/txpool"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/plugin/evm/customheader"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap3"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/consensus/misc/eip4844"
 	"github.com/ava-labs/libevm/core/rawdb"
@@ -53,11 +59,6 @@ import (
 	"github.com/ava-labs/libevm/rlp"
 	"github.com/holiman/billy"
 	"github.com/holiman/uint256"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/core/txpool"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/plugin/evm/header"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/ap3"
 )
 
 var (
@@ -73,6 +74,9 @@ var (
 var testChainConfig *params.ChainConfig
 
 func init() {
+	params.RegisterExtras()
+	customtypes.Register()
+
 	testChainConfig = new(params.ChainConfig)
 	*testChainConfig = params.Copy(params.TestChainConfig)
 
@@ -118,8 +122,12 @@ func (bc *testBlockChain) CurrentBlock() *types.Header {
 			Extra:    make([]byte, ap3.WindowSize),
 		}
 		config := params.GetExtra(bc.config)
-		baseFee, err := header.BaseFee(
-			config, parent, blockTime,
+		timeMS := blockTime * 1000
+		if config.IsGranite(blockTime) {
+			customtypes.GetHeaderExtra(parent).TimeMilliseconds = &timeMS
+		}
+		baseFee, err := customheader.BaseFee(
+			config, parent, timeMS,
 		)
 		if err != nil {
 			panic(err)
@@ -149,7 +157,7 @@ func (bc *testBlockChain) CurrentBlock() *types.Header {
 	}
 	excessBlobGas := lo.Uint64()
 
-	return &types.Header{
+	head := &types.Header{
 		Number:        blockNumber,
 		Time:          blockTime,
 		GasLimit:      gasLimit,
@@ -157,6 +165,11 @@ func (bc *testBlockChain) CurrentBlock() *types.Header {
 		ExcessBlobGas: &excessBlobGas,
 		Extra:         make([]byte, ap3.WindowSize),
 	}
+	if params.GetExtra(bc.config).IsGranite(blockTime) {
+		timeMS := blockTime * 1000
+		customtypes.GetHeaderExtra(head).TimeMilliseconds = &timeMS
+	}
+	return head
 }
 
 func (bc *testBlockChain) CurrentFinalBlock() *types.Header {

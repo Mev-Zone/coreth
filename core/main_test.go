@@ -4,17 +4,32 @@
 package core
 
 import (
+	"os"
 	"testing"
 
+	"github.com/ava-labs/libevm/log"
 	"go.uber.org/goleak"
+
+	"github.com/mev-zone/coreth/core/extstate"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
 )
 
 // TestMain uses goleak to verify tests in this package do not leak unexpected
 // goroutines.
 func TestMain(m *testing.M) {
+	RegisterExtras()
+
+	customtypes.Register()
+	extstate.RegisterExtras()
+	params.RegisterExtras()
+
+	// May of these tests are likely to fail due to `log.Crit` in goroutines.
+	log.SetDefault(log.NewLogger(log.NewTerminalHandlerWithLevel(os.Stderr, log.LevelCrit, true)))
+
 	opts := []goleak.Option{
 		// No good way to shut down these goroutines:
-		goleak.IgnoreTopFunction("github.com/ava-labs/coreth/core/state/snapshot.(*diskLayer).generate"),
+		goleak.IgnoreTopFunction("github.com/mev-zone/coreth/core/state/snapshot.(*diskLayer).generate"),
 		goleak.IgnoreTopFunction("github.com/ava-labs/libevm/core.(*txSenderCacher).cache"),
 		goleak.IgnoreTopFunction("github.com/ava-labs/libevm/metrics.(*meterArbiter).tick"),
 		goleak.IgnoreTopFunction("github.com/syndtr/goleveldb/leveldb.(*DB).mpoolDrain"),

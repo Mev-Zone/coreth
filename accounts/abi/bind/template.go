@@ -102,8 +102,8 @@ import (
 	"strings"
 	"errors"
 
-	"github.com/ava-labs/coreth/accounts/abi"
-	"github.com/ava-labs/coreth/accounts/abi/bind"
+	"github.com/mev-zone/coreth/accounts/abi"
+	"github.com/mev-zone/coreth/accounts/abi/bind"
 	"github.com/ava-labs/libevm/core/types"
 	ethereum "github.com/ava-labs/libevm"
 	"github.com/ava-labs/libevm/common"

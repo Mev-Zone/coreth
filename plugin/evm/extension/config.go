@@ -24,11 +24,11 @@ import (
 	"github.com/mev-zone/coreth/params/extras"
 	"github.com/mev-zone/coreth/plugin/evm/config"
 	"github.com/mev-zone/coreth/plugin/evm/message"
+	"github.com/mev-zone/coreth/plugin/evm/vmsync"
 	"github.com/mev-zone/coreth/sync/handlers"
 
 	avalanchecommon "github.com/ava-labs/avalanchego/snow/engine/common"
 	synccommon "github.com/mev-zone/coreth/sync"
-	vmsync "github.com/mev-zone/coreth/sync/vm"
 )
 
 var (

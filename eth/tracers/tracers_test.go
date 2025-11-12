@@ -29,19 +29,27 @@ package tracers
 
 import (
 	"math/big"
+	"os"
 	"testing"
 
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/tests"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/core/vm"
 	"github.com/ava-labs/libevm/crypto"
 	"github.com/ava-labs/libevm/eth/tracers/logger"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
-	"github.com/mev-zone/coreth/tests"
 )
+
+func TestMain(m *testing.M) {
+	customtypes.Register()
+	params.RegisterExtras()
+	os.Exit(m.Run())
+}
 
 func BenchmarkPrestateTracer(b *testing.B) {
 	for _, scheme := range []string{rawdb.HashScheme, customrawdb.FirewoodScheme} {

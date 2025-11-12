@@ -15,7 +15,6 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/ava-labs/avalanchego/cache/lru"
 	"github.com/ava-labs/avalanchego/cache/metercacher"
@@ -34,6 +33,8 @@ import (
 	"github.com/ava-labs/avalanchego/utils/units"
 	"github.com/ava-labs/avalanchego/vms/components/chain"
 	"github.com/ava-labs/avalanchego/vms/components/gas"
+	"github.com/ava-labs/avalanchego/vms/evm/acp176"
+	"github.com/ava-labs/avalanchego/vms/evm/acp226"
 	"github.com/ava-labs/firewood-go-ethhash/ffi"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/core/rawdb"
@@ -72,8 +73,8 @@ import (
 	"github.com/mev-zone/coreth/plugin/evm/extension"
 	"github.com/mev-zone/coreth/plugin/evm/gossip"
 	"github.com/mev-zone/coreth/plugin/evm/message"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/acp176"
 	"github.com/mev-zone/coreth/plugin/evm/vmerrors"
+	"github.com/mev-zone/coreth/plugin/evm/vmsync"
 	"github.com/mev-zone/coreth/precompile/precompileconfig"
 	"github.com/mev-zone/coreth/rpc"
 	"github.com/mev-zone/coreth/sync/client/stats"
@@ -90,7 +91,6 @@ import (
 	warpcontract "github.com/mev-zone/coreth/precompile/contracts/warp"
 	statesyncclient "github.com/mev-zone/coreth/sync/client"
 	handlerstats "github.com/mev-zone/coreth/sync/handlers/stats"
-	vmsync "github.com/mev-zone/coreth/sync/vm"
 	utilsrpc "github.com/mev-zone/coreth/utils/rpc"
 )
 
@@ -103,10 +103,6 @@ var (
 )
 
 const (
-	// Max time from current time allowed for blocks, before they're considered future blocks
-	// and fail verification
-	maxFutureBlockTime = 10 * time.Second
-
 	secpCacheSize          = 1024
 	decidedCacheSize       = 10 * units.MiB
 	missingCacheSize       = 50
@@ -138,21 +134,25 @@ var (
 )
 
 var (
-	errInvalidBlock                  = errors.New("invalid block")
-	errInvalidNonce                  = errors.New("invalid nonce")
-	errUnclesUnsupported             = errors.New("uncles unsupported")
-	errNilBaseFeeApricotPhase3       = errors.New("nil base fee is invalid after apricotPhase3")
-	errNilBlockGasCostApricotPhase4  = errors.New("nil blockGasCost is invalid after apricotPhase4")
-	errInvalidHeaderPredicateResults = errors.New("invalid header predicate results")
-	errInitializingLogger            = errors.New("failed to initialize logger")
-	errShuttingDownVM                = errors.New("shutting down VM")
+	errInvalidBlock                      = errors.New("invalid block")
+	errInvalidNonce                      = errors.New("invalid nonce")
+	errUnclesUnsupported                 = errors.New("uncles unsupported")
+	errNilBaseFeeApricotPhase3           = errors.New("nil base fee is invalid after apricotPhase3")
+	errNilBlockGasCostApricotPhase4      = errors.New("nil blockGasCost is invalid after apricotPhase4")
+	errInvalidHeaderPredicateResults     = errors.New("invalid header predicate results")
+	errInitializingLogger                = errors.New("failed to initialize logger")
+	errShuttingDownVM                    = errors.New("shutting down VM")
+	errFirewoodPruningRequired           = errors.New("pruning must be enabled for Firewood")
+	errFirewoodSnapshotCacheDisabled     = errors.New("snapshot cache must be disabled for Firewood")
+	errFirewoodOfflinePruningUnsupported = errors.New("offline pruning is not supported for Firewood")
+	errFirewoodStateSyncUnsupported      = errors.New("state sync is not yet supported for Firewood")
 )
 
 var originalStderr *os.File
 
 // legacyApiNames maps pre geth v1.10.20 api names to their updated counterparts.
 // used in attachEthService for backward configuration compatibility.
-var legacyApiNames = map[string]string{
+var legacyAPINames = map[string]string{
 	"internal-public-eth":              "internal-eth",
 	"internal-public-blockchain":       "internal-blockchain",
 	"internal-public-transaction-pool": "internal-transaction",
@@ -397,22 +397,21 @@ func (vm *VM) Initialize(
 		log.Warn("This is untested in production, use at your own risk")
 		// Firewood only supports pruning for now.
 		if !vm.config.Pruning {
-			return errors.New("Pruning must be enabled for Firewood")
+			return errFirewoodPruningRequired
 		}
 		// Firewood does not support iterators, so the snapshot cannot be constructed
 		if vm.config.SnapshotCache > 0 {
-			return errors.New("Snapshot cache must be disabled for Firewood")
+			return errFirewoodSnapshotCacheDisabled
 		}
 		if vm.config.OfflinePruning {
-			return errors.New("Offline pruning is not supported for Firewood")
+			return errFirewoodOfflinePruningUnsupported
 		}
 		if vm.config.StateSyncEnabled == nil || *vm.config.StateSyncEnabled {
-			return errors.New("State sync is not yet supported for Firewood")
+			return errFirewoodStateSyncUnsupported
 		}
 	}
 	if vm.ethConfig.StateScheme == rawdb.PathScheme {
-		log.Error("Path state scheme is not supported. Please use HashDB or Firewood state schemes instead")
-		return errors.New("Path state scheme is not supported")
+		log.Warn("Path state scheme is not supported. Please use HashDB or Firewood state schemes instead")
 	}
 
 	// Create directory for offline pruning
@@ -545,6 +544,12 @@ func (vm *VM) initializeChain(lastAcceptedHash common.Hash) error {
 		*desiredTargetExcess = acp176.DesiredTargetExcess(*vm.config.GasTarget)
 	}
 
+	var desiredDelayExcess *acp226.DelayExcess
+	if vm.config.MinDelayTarget != nil {
+		desiredDelayExcess = new(acp226.DelayExcess)
+		*desiredDelayExcess = acp226.DesiredDelayExcess(*vm.config.MinDelayTarget)
+	}
+
 	vm.eth, err = eth.New(
 		node,
 		&vm.ethConfig,
@@ -555,8 +560,8 @@ func (vm *VM) initializeChain(lastAcceptedHash common.Hash) error {
 		dummy.NewDummyEngine(
 			vm.extensionConfig.ConsensusCallbacks,
 			dummy.Mode{},
-			vm.clock,
 			desiredTargetExcess,
+			desiredDelayExcess,
 		),
 		vm.clock,
 	)
@@ -872,7 +877,7 @@ func (vm *VM) WaitForEvent(ctx context.Context) (commonEng.Message, error) {
 		}
 	}
 
-	return builder.waitForEvent(ctx)
+	return builder.waitForEvent(ctx, vm.blockChain.CurrentHeader())
 }
 
 // Shutdown implements the snowman.ChainVM interface
@@ -914,7 +919,7 @@ func (vm *VM) buildBlockWithContext(_ context.Context, proposerVMBlockCtx *block
 	}
 
 	block, err := vm.miner.GenerateBlock(predicateCtx)
-	vm.builder.handleGenerateBlock()
+	vm.builder.handleGenerateBlock(vm.blockChain.CurrentHeader().ParentHash)
 	if err != nil {
 		return nil, fmt.Errorf("%w: %w", vmerrors.ErrGenerateBlockFailed, err)
 	}
@@ -1039,7 +1044,7 @@ func (vm *VM) GetBlockIDAtHeight(_ context.Context, height uint64) (ids.ID, erro
 	return ids.ID(hash), nil
 }
 
-func (*VM) Version(_ context.Context) (string, error) {
+func (*VM) Version(context.Context) (string, error) {
 	return Version, nil
 }
 
@@ -1049,8 +1054,8 @@ func (vm *VM) CreateHandlers(ctx context.Context) (map[string]http.Handler, erro
 	if vm.config.BatchRequestLimit > 0 && vm.config.BatchResponseMaxSize > 0 {
 		handler.SetBatchLimits(int(vm.config.BatchRequestLimit), int(vm.config.BatchResponseMaxSize))
 	}
-	if vm.config.HttpBodyLimit > 0 {
-		handler.SetHTTPBodyLimit(int(vm.config.HttpBodyLimit))
+	if vm.config.HTTPBodyLimit > 0 {
+		handler.SetHTTPBodyLimit(int(vm.config.HTTPBodyLimit))
 	}
 
 	enabledAPIs := vm.config.EthAPIs()
@@ -1073,7 +1078,7 @@ func (vm *VM) CreateHandlers(ctx context.Context) (map[string]http.Handler, erro
 		warpSDKClient := vm.Network.NewClient(p2p.SignatureRequestHandlerID)
 		signatureAggregator := acp118.NewSignatureAggregator(vm.ctx.Log, warpSDKClient)
 
-		if err := handler.RegisterName("warp", warp.NewAPI(vm.ctx, vm.warpBackend, signatureAggregator, vm.requirePrimaryNetworkSigners)); err != nil {
+		if err := handler.RegisterName("warp", warp.NewAPI(vm.ctx, vm.warpBackend, signatureAggregator)); err != nil {
 			return nil, err
 		}
 		enabledAPIs = append(enabledAPIs, "warp")
@@ -1126,24 +1131,6 @@ func (vm *VM) rules(number *big.Int, time uint64) extras.Rules {
 	return *params.GetRulesExtra(ethrules)
 }
 
-// currentRules returns the chain rules for the current block.
-func (vm *VM) currentRules() extras.Rules {
-	header := vm.eth.APIBackend.CurrentHeader()
-	return vm.rules(header.Number, header.Time)
-}
-
-// requirePrimaryNetworkSigners returns true if warp messages from the primary
-// network must be signed by the primary network validators.
-// This is necessary when the subnet is not validating the primary network.
-func (vm *VM) requirePrimaryNetworkSigners() bool {
-	switch c := vm.currentRules().Precompiles[warpcontract.ContractAddress].(type) {
-	case *warpcontract.Config:
-		return c.RequirePrimaryNetworkSigners
-	default: // includes nil due to non-presence
-		return false
-	}
-}
-
 func (vm *VM) startContinuousProfiler() {
 	// If the profiler directory is empty, return immediately
 	// without creating or starting a continuous profiler.
@@ -1151,7 +1138,7 @@ func (vm *VM) startContinuousProfiler() {
 		return
 	}
 	vm.profiler = profiler.NewContinuous(
-		filepath.Join(vm.config.ContinuousProfilerDir),
+		filepath.Clean(vm.config.ContinuousProfilerDir),
 		vm.config.ContinuousProfilerFrequency.Duration,
 		vm.config.ContinuousProfilerMaxFiles,
 	)
@@ -1203,7 +1190,7 @@ func attachEthService(handler *rpc.Server, apis []rpc.API, names []string) error
 	for _, ns := range names {
 		// handle pre geth v1.10.20 api names as aliases for their updated values
 		// to allow configurations to be backwards compatible.
-		if newName, isLegacy := legacyApiNames[ns]; isLegacy {
+		if newName, isLegacy := legacyAPINames[ns]; isLegacy {
 			log.Info("deprecated api name referenced in configuration.", "deprecated", ns, "new", newName)
 			enabledServicesSet[newName] = struct{}{}
 			continue

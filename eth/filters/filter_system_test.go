@@ -33,26 +33,34 @@ import (
 	"fmt"
 	"math/big"
 	"math/rand"
+	"os"
 	"reflect"
 	"runtime"
 	"testing"
 	"time"
 
+	"github.com/mev-zone/coreth/consensus/dummy"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/internal/ethapi"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/rpc"
 	ethereum "github.com/ava-labs/libevm"
 	"github.com/ava-labs/libevm/common"
+	"github.com/ava-labs/libevm/core/bloombits"
 	"github.com/ava-labs/libevm/core/rawdb"
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/ava-labs/libevm/event"
-	"github.com/mev-zone/coreth/consensus/dummy"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/core/bloombits"
-	"github.com/mev-zone/coreth/internal/ethapi"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/plugin/evm/customrawdb"
-	"github.com/mev-zone/coreth/rpc"
 	"github.com/stretchr/testify/require"
 )
+
+func TestMain(m *testing.M) {
+	customtypes.Register()
+	params.RegisterExtras()
+	os.Exit(m.Run())
+}
 
 type testBackend struct {
 	db                ethdb.Database
@@ -892,5 +900,5 @@ func TestGetLogsRegression(t *testing.T) {
 	test := FilterCriteria{BlockHash: &common.Hash{}, FromBlock: big.NewInt(rpc.LatestBlockNumber.Int64())}
 
 	_, err := api.GetLogs(context.Background(), test)
-	require.Error(t, err, "unknown block")
+	require.ErrorContains(t, err, "unknown block")
 }

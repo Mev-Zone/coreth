@@ -35,16 +35,16 @@ import (
 	"sync"
 	"time"
 
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/rpc"
 	ethereum "github.com/ava-labs/libevm"
 	"github.com/ava-labs/libevm/common"
+	"github.com/ava-labs/libevm/core/bloombits"
 	"github.com/ava-labs/libevm/core/types"
 	"github.com/ava-labs/libevm/ethdb"
 	"github.com/ava-labs/libevm/event"
 	"github.com/ava-labs/libevm/log"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/core/bloombits"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/rpc"
 )
 
 // Config represents the configuration of the filter system.
