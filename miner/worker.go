@@ -41,15 +41,6 @@ import (
 	"github.com/ava-labs/avalanchego/utils/units"
 	"github.com/ava-labs/avalanchego/vms/evm/acp176"
 	"github.com/ava-labs/avalanchego/vms/evm/predicate"
-	"github.com/mev-zone/coreth/consensus"
-	"github.com/mev-zone/coreth/core"
-	"github.com/mev-zone/coreth/core/extstate"
-	"github.com/mev-zone/coreth/core/txpool"
-	"github.com/mev-zone/coreth/params"
-	"github.com/mev-zone/coreth/plugin/evm/customheader"
-	"github.com/mev-zone/coreth/plugin/evm/customtypes"
-	"github.com/mev-zone/coreth/plugin/evm/upgrade/cortina"
-	"github.com/mev-zone/coreth/precompile/precompileconfig"
 	"github.com/ava-labs/libevm/common"
 	"github.com/ava-labs/libevm/consensus/misc/eip4844"
 	"github.com/ava-labs/libevm/core/state"
@@ -59,6 +50,15 @@ import (
 	"github.com/ava-labs/libevm/log"
 	ethparams "github.com/ava-labs/libevm/params"
 	"github.com/holiman/uint256"
+	"github.com/mev-zone/coreth/consensus"
+	"github.com/mev-zone/coreth/core"
+	"github.com/mev-zone/coreth/core/extstate"
+	"github.com/mev-zone/coreth/core/txpool"
+	"github.com/mev-zone/coreth/params"
+	"github.com/mev-zone/coreth/plugin/evm/customheader"
+	"github.com/mev-zone/coreth/plugin/evm/customtypes"
+	"github.com/mev-zone/coreth/plugin/evm/upgrade/cortina"
+	"github.com/mev-zone/coreth/precompile/precompileconfig"
 )
 
 const (
@@ -292,9 +292,13 @@ func (w *worker) commitNewWork(predicateContext *precompileconfig.PredicateConte
 }
 
 func (w *worker) createEnvironment(predicateCtx *precompileconfig.PredicateContext, parentHash common.Hash) (*environment, error) {
-	tstart := w.clock.Time()
-	timestamp := uint64(tstart.Unix())
-	parent := w.chain.CurrentBlock()
+	var (
+		parent      = w.chain.CurrentBlock()
+		chainExtra  = params.GetExtra(w.chainConfig)
+		tstart      = customheader.GetNextTimestamp(parent, w.clock.Time())
+		timestamp   = uint64(tstart.Unix())
+		timestampMS = uint64(tstart.UnixMilli())
+	)
 
 	if parentHash != (common.Hash{}) {
 		if blk := w.chain.GetBlockByHash(parentHash); blk != nil {
@@ -304,27 +308,28 @@ func (w *worker) createEnvironment(predicateCtx *precompileconfig.PredicateConte
 		}
 	}
 
-	if parent.Time >= timestamp {
-		timestamp = parent.Time
-	}
-
-	chainExtra := params.GetExtra(w.chainConfig)
-	gasLimit, err := customheader.GasLimit(chainExtra, parent, timestamp)
-	if err != nil {
-		return nil, fmt.Errorf("calculating new gas limit: %w", err)
-	}
-	baseFee, err := customheader.BaseFee(chainExtra, parent, timestamp)
-	if err != nil {
-		return nil, fmt.Errorf("failed to calculate new base fee: %w", err)
-	}
-
 	header := &types.Header{
 		ParentHash: parent.Hash(),
 		Number:     new(big.Int).Add(parent.Number, common.Big1),
-		GasLimit:   gasLimit,
 		Time:       timestamp,
-		BaseFee:    baseFee,
 	}
+
+	if chainExtra.IsGranite(timestamp) {
+		headerExtra := customtypes.GetHeaderExtra(header)
+		headerExtra.TimeMilliseconds = &timestampMS
+	}
+
+	gasLimit, err := customheader.GasLimit(chainExtra, parent, timestampMS)
+	if err != nil {
+		return nil, fmt.Errorf("calculating new gas limit: %w", err)
+	}
+	header.GasLimit = gasLimit
+
+	baseFee, err := customheader.BaseFee(chainExtra, parent, timestampMS)
+	if err != nil {
+		return nil, fmt.Errorf("failed to calculate new base fee: %w", err)
+	}
+	header.BaseFee = baseFee
 
 	// Apply EIP-4844, EIP-4788.
 	if w.chainConfig.IsCancun(header.Number, header.Time) {
