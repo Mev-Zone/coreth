@@ -1095,12 +1095,8 @@ func (vm *VM) CreateHandlers(ctx context.Context) (map[string]http.Handler, erro
 			return nil, err
 		}
 		bf := vm.eth.Miner().BidFetcher()
-		if p, err := mevBackend.MevParams(); err != nil {
-			return nil, err
-		} else {
-			bf.Init(ctx, mevBackend, vm.config.Mev, vm.ctx, p)
-			mevBackend.SetBidSimulator(bf)
-		}
+		bf.Init(ctx, mevBackend, vm.config.Mev, vm.ctx)
+		mevBackend.SetBidSimulator(bf)
 	}
 
 	log.Info("enabling apis",

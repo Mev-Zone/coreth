@@ -312,10 +312,7 @@ func TestGetFinalBid_ShouldReturnNil(t *testing.T) {
 	require.NoError(t, errB)
 	mevBackend.SetBidSimulator(b)
 
-	mevP, err := mevBackend.MevParams()
-	require.NoError(t, err)
-
-	b.Init(context.Background(), mevBackend, config, snowCtx, mevP)
+	b.Init(context.Background(), mevBackend, config, snowCtx)
 
 	parent := common.HexToHash("0xFFF")
 	blockNumber := big.NewInt(100)
@@ -344,10 +341,7 @@ func TestGetFinalBid_ShouldReturnBid(t *testing.T) {
 	require.NoError(t, errB)
 	mevBackend.SetBidSimulator(b)
 
-	mevP, err := mevBackend.MevParams()
-	require.NoError(t, err)
-
-	b.Init(context.Background(), mevBackend, config, snowCtx, mevP)
+	b.Init(context.Background(), mevBackend, config, snowCtx)
 
 	parent := common.HexToHash("0xFFF")
 	blockNumber := big.NewInt(100)

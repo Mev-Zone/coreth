@@ -73,7 +73,7 @@ var (
 
 type BidFetcher interface {
 	GetFinalBid(header *types.Header, burn *uint256.Int) *BidRuntime
-	Init(ctx context.Context, backend mev.Backend, config mev.Config, snowCtx *snow.Context, params *types2.HexParams)
+	Init(ctx context.Context, backend mev.Backend, config mev.Config, snowCtx *snow.Context)
 	ExistBuilder(builder common.Address) bool
 	CheckPending(blockNumber uint64, builder common.Address, bidHash common.Hash) error
 	SendBid(ctx context.Context, bid *types2.Bid) error
@@ -198,26 +198,44 @@ func (b *bidSimulator) Close() {
 	b.chainHeadSub.Unsubscribe()
 }
 
-func (b *bidSimulator) Init(ctx context.Context, backend mev.Backend, config mev.Config, snowCtx *snow.Context, params *types2.HexParams) {
+func (b *bidSimulator) Init(ctx context.Context, backend mev.Backend, config mev.Config, snowCtx *snow.Context) {
 	b.snowCtx = snowCtx
 	b.config = &config
 	b.backend = backend
 	b.chainHeadSub = b.chain.SubscribeChainHeadEvent(b.chainHeadCh)
 	b.bidReceiving.Store(true)
-	b.dialBuilders(ctx, params)
 
-	if len(b.builders) == 0 {
-		b.snowCtx.Log.Warn("BidSimulator: no valid builders")
-	}
-
+	go b.dialBuilders(ctx)
 	go b.clearLoop()
 	go b.mainLoop()
 	go b.newBidLoop()
 }
 
-func (b *bidSimulator) dialBuilders(ctx context.Context, params *types2.HexParams) {
-	for _, v := range b.config.Builders {
-		b.AddBuilder(ctx, v.Address, v.URL, params)
+func (b *bidSimulator) dialBuilders(ctx context.Context) {
+	timer := time.NewTimer(0)
+	defer timer.Stop()
+
+	for {
+		select {
+		case <-b.exitCh:
+			return
+		case <-timer.C:
+			params, err := b.backend.MevParams()
+			if err != nil {
+				b.snowCtx.Log.Warn("BidSimulator: error fetching mev params", zap.Error(err))
+				continue
+			}
+
+			for _, v := range b.config.Builders {
+				b.AddBuilder(ctx, v.Address, v.URL, params)
+			}
+
+			if len(b.builders) == 0 {
+				b.snowCtx.Log.Warn("BidSimulator: no valid builders")
+			}
+
+			timer.Reset(5 * time.Minute)
+		}
 	}
 }
 
@@ -733,7 +751,8 @@ func (b *bidSimulator) tryPublishBest(parent common.Hash, rt *BidRuntime) (won b
 func (b *bidSimulator) checkBidReward(rt *BidRuntime) error {
 	rt.packReward()
 	if !rt.validReward() {
-		return errors.New("reward does not achieve the gas expectation")
+		return fmt.Errorf("reward does not achieve the gas expectation, got: %v, expect: %v",
+			rt.packedBlockReward, rt.expectedBlockReward)
 	}
 	return nil
 }
@@ -741,7 +760,8 @@ func (b *bidSimulator) checkBidReward(rt *BidRuntime) error {
 func (b *bidSimulator) checkBidBurn(rt *BidRuntime) error {
 	rt.packBurnShare()
 	if !rt.validBurnShare() {
-		return errors.New("reward does not achieve the burn expectation")
+		return fmt.Errorf("reward does not achieve the burn expectation, got: %v, expect: %v",
+			rt.packedBurnShare, rt.expectedBurnShare)
 	}
 	return nil
 }
@@ -749,7 +769,8 @@ func (b *bidSimulator) checkBidBurn(rt *BidRuntime) error {
 func (b *bidSimulator) checkValidatorReward(rt *BidRuntime) error {
 	rt.packValidatorReward(b.config.ValidatorWallet)
 	if !rt.validValidatorReward() {
-		return errors.New("reward does not achieve the validator expectation")
+		return fmt.Errorf("reward does not achieve the validator expectation, got: %v, expect: %v",
+			rt.packedValidatorReward, rt.expectedValidatorReward)
 	}
 	return nil
 }
